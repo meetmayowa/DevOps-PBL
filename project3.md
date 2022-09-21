@@ -1,7 +1,7 @@
 # PROJECT 3 - MERN STACK IMPLEMENTATION 
 ## SIMPLE TO-DO APPLICATION ON MERN WEB STACK
 
-In this project, yI was tasked to implement a web solution based on MERN stack in AWS Cloud.
+In this project, I was tasked to implement a web solution based on MERN stack in AWS Cloud.
 
 **MERN Web stack** consists of following components:
 
@@ -14,9 +14,7 @@ ReactJS: A frontend framework developed by Facebook. It is based on JavaScript, 
 
 
 ## STEP 1: Preparing Prerequisites ##
-
-_____
-
+---
 To setup a virtual server, I Created a new EC2 Instance of t2.nano family with Ubuntu Server 20.04 LTS (HVM) image from aws account which is the free tier(limited) offered by aws. After a successful launch of the EC2 instance(ubuntu server), I connected to the EC2 instance from as a window user terminal with my private key(.pem file).
 
 
@@ -25,8 +23,7 @@ To setup a virtual server, I Created a new EC2 Instance of t2.nano family with U
 **CREATE A NEW INSTANCE AND CONNECT TO IT - Using its Public DNS 
 
 ## STEP 2: Backend Configuration
-
-___
+---
 
 * Update ubuntu `sudo apt update`
 
@@ -39,8 +36,8 @@ ___
 ![Upgrade](./images/2-Upgrade.PNG)
 
 ## STEP 3: Installing Node.js on the Server ##
+---
 
-____
 I Installed Node.js with this command  `sudo apt-get install -y nodejs`
 
 Note: The command above installs both nodejs and npm NPM is a package manager for Node like apt for Ubuntu, it is used to install Node modules & packages and to manage dependency conflicts.
@@ -55,9 +52,7 @@ Note: The command above installs both nodejs and npm NPM is a package manager fo
 ![verify](./images/4-verify-installation.PNG)
 
 ## STEP 4: Application Code Setup ##
-
-___
-
+---
 * Create a new directory for your To-Do project: `mkdir Todo`
 
 * Run this command to verify that the Todo directory is created with ls command: `ls`
@@ -78,7 +73,7 @@ ___
 
 
 ## STEP5: Installing ExpressJs ##
-____
+---
 
 Remember that Express is a framework for Node.js, therefore a lot of things developers would have programmed is already taken care of out of the box.
 
@@ -132,7 +127,7 @@ http://3.95.205.69:5000/
 
 
 ## STEP 6: Creating Routes ##
-___
+---
 
 There are three actions that our To-Do application needs to be able to do:
 
@@ -160,7 +155,7 @@ write this code in the file.
 
 
 ## STEP 7: To create a Schema and a model ##
-____
+---
 We will also use models to define the database schema . 
 
 This is important so that we will be able to define the fields stored in each Mongodb document
@@ -197,6 +192,7 @@ In Routes directory, open `api.js` with `vim api.js`, delete the code inside wit
 
 
  ## STEP 8 - Configuration of  MongoDB Database
+ ---
 
  I need a database where I will store my data. For this I will make use of mLab. mLab provides MongoDB database as a service solution (DBaaS), so to make life easy, I signed up for a shared clusters free account, which is ideal for my use case. 
 
@@ -247,7 +243,7 @@ Start your server using the command: `node index.js`
 
 
 ## STEP 9: Testing Backend Code without Frontend using RESTful API
-___
+---
 
 In this project, I used Postman to test our API.
 
@@ -265,4 +261,46 @@ http://<PublicIP-or-PublicDNS>:5000/api/todos
 This same process was repeated for the GET REQUEST and the DELETE REQUEST.
 
 ## STEP 10: Creating the Frontend
-____
+---
+To create the frontend with react, the following steps are taken:
+
+* To start out with the frontend of the To-do app, I used the `create-react-app` command to scaffold our app.
+
+In the same root directory as your backend code, which is the Todo directory, run
+
+`npx create-react-app client`
+
+
+`npm install concurrently --save-dev`
+
+
+`npm install nodemon --save-dev`
+
+![concurrently](./images/29-Concurrently.PNG)
+
+* Replacing the script tag in the package.json in the Todo directory with the following code:
+
+
+``` "scripts": {
+"start": "node index.js",
+"start-watch": "nodemon index.js",
+"dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
+},  
+```
+* Configure Proxy in package.json
+
+  Change directory to `‘client’`
+
+   `cd client`
+
+* Starting the server in the Todo directly by entering the following command: ` npm run dev` 
+
+Note:
+I made sure I returned back to the Todo Directory
+
+![database](./images/31-Database.PNG)
+
+* Configuring the security group of my EC2 instance to be able to listen to TCP port 3000
+
+![security](./images/32-security-group.PNG)
+
