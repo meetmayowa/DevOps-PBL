@@ -251,7 +251,7 @@ I tested all the API endpoints and make sure they are working. For the endpoints
 
 I opened the Postman, create a POST request to the Api
 
-http://<PublicIP-or-PublicDNS>:5000/api/todos
+http://35.173.198.227:5000/api/todos
 
  This request sends a new task to our To-Do list so the application could store it in the database.
 
