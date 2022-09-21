@@ -276,7 +276,7 @@ In the same root directory as your backend code, which is the Todo directory, ru
 
 `npm install nodemon --save-dev`
 
-![concurrently](./images/29-Concurrently.PNG)
+![concurrently](./images/29-concurrently.PNG)
 
 * Replacing the script tag in the package.json in the Todo directory with the following code:
 
