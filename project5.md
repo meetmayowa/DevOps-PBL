@@ -62,10 +62,22 @@ To be able to connect to server A from server B a remote user is created and gra
 
 * Activating mysql security script : `$ sudo mysql_secure_installation`
 * Activating mysql shell: `$ sudo mysql`
-* Creating a database: mysql> `CREATE DATABASE mysql_db;`
-* Creating a remote user with server B’s ip_address: mysql> `CREATE USER 'meetmayowa'@'%' IDENTIFIED  WITH mysql_native_password BY 'PassWord.1';`
-* Granting the remote user full access to the database:mysql> `GRANT ALL ON mysql_db.* TO 'meetmayowa'@'&' WITH GRANT OPTION;`
+* Creating a database: mysql> `CREATE DATABASE darey_db;`
+* Creating a remote user with server B’s ip_address: mysql> `CREATE USER 'darey_io'@'%' IDENTIFIED  WITH mysql_native_password BY 'PassWord.1';`
+* Granting the remote user full access to the database:mysql> 
+
+ `GRANT ALL ON darey_db.* TO 'dareyio'@'%' WITH GRANT OPTION;`
 * Lastly, flushing the privileges so that MySQL will begin to use them: mysql> `FLUSH PRIVILEGES;`
 * Exit: mysql> `exit`
 
 
+* I used the following command to connect remotely to the SERVER A from the Client SERVER B: `sudo mysql -u darey_io -h 172.31.8.253 -p`
+* Then a password will be prompted to access the remote server
+* Connection from the client instance was established
+
+* I used this command to show the databases on the SERVER A:  
+`show databases;`
+
+![remote](./images/58-remote-access.PNG)
+
+Hola! It was fun!
