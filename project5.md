@@ -70,6 +70,7 @@ To be able to connect to server A from server B a remote user is created and gra
 * Lastly, flushing the privileges so that MySQL will begin to use them: mysql> `FLUSH PRIVILEGES;`
 * Exit: mysql> `exit`
 
+## STEP 7: CONNECTION ESTABLISHED!
 
 * I used the following command to connect remotely to the SERVER A from the Client SERVER B: `sudo mysql -u darey_io -h 172.31.8.253 -p`
 * Then a password will be prompted to access the remote server
