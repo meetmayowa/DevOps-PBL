@@ -35,8 +35,8 @@ Partitioning the volumes attached to the Ec2 Instance and creating Logical volum
 
 After a successful SSH connection to the EC2 instance on my terminal, running the following commands:
 
-* To inspect what block devices are attached to the server: $ lsblk
-* To see all mounts and free space: $ df –h
+* To inspect what block devices are attached to the server: `lsblk`
+* To see all mounts and free space: `df –h`
 
 ![partition](./img/4-partition.PNG)
 
@@ -149,8 +149,97 @@ We are going to make the 2 Logical Volume a filesystem
 
 ## STEP 4: PREPARING THE DATABASE SERVER
 
+Please note that I created the db-server along side with the web server at the  beginning of the setup.
+
+ **Note: We are going to repeat all the steps taken to configure the webserver on the  db server. We changed the apps-lv logiical voulme to db-lv**
+
+![ec2](./img/1-ec2.PNG)
+
+* Attach the volume 
+
+![db](./img/23-db.PNG)
+
+* Creating 3 EBS volumes in the same Availability Zone (us-east-1c) with my EC2 instance created. 
+
+After a successful SSH connection to the EC2 instance on my terminal, running the following commands:
+
+To inspect what block devices are attached to the server: `lsblk`
+To see all mounts and free space: `df –h`
+
+![mount](./img/24-mount.PNG)
+
+**Creating a single partition on each of the 3 disks:**
+
+* For xdvf disk: sudo gdisk /dev/xvdf
+* Entering `‘`n’` key to add a new partition
+* Accepting all the defaults settings and selecting Linux LVM type of partition by entering `8e00` code and hit enter
+* Entering the `‘w’` key to write the new partition created and confirming with the `‘Y’` and hit enter.
+
+* I followed the same process to create single partition for the xvdg and xvdh drives respectively
+
+* Use lsblk utility to view the newly configured partition on each of the 3 disks.
+
+![verify](./img/24-verify.PNG)
+
+* Installing LVM2 package for creating logical volumes on a linux server using this command: `sudo yum install lvm2`
+
+
+![lvm2](./img/25-lvm2-db.PNG)
+
+* Checking for available partitions: `sudo lvmdiskscan`
+* Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM: `sudo pvcreate /dev/xvdf1 /dev/xvdg1 /dev/xvdh1`
+
+* Check if all the physical voulumes have been created properly: `sudo pvs`
+
+![pvcreate](./img/26-pvcreate.PNG)
+
+* Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg: `sudo vgcreate vg-database /dev/xvdf1 /dev/xvdg1 /dev/xvdh1`
+* Verify that my VG has been created successfully by running `sudo vgs`
+
+* On the Volume group, we can now create our Logical Volume (db-lv)
+
+![vg-database](./img/27-vg-db.PNG)
+
+* In the root directory create an directory called db: `sudo mkdir /db`
+* We are going to make the Logical Volume a filesystem. Formatting with ext4 filesytem before we mount: `sudo mkfs.ext4 /dev/vg-database/dv-lv`
+
+![mount](./img/28-mount.PNG)
+
+* We can go ahead and mount using this command: `sudo mount /dev/vg-database/db-lv  /db `
+
+* I verified by using this command: `df -h`
+
+![mounted](./img/29-mounted.PNG)
+
+
+**Persisting Mount Points**
+* To ensure that all our mounts are not erased on restarting the server, we persist the mount points by configuring the /etc/fstab directory
+
+* Using this code `sudo blkid` to get UUID of each mount points
+* Editing the /etc/fstab directory by using this command: `sudo vi /etc/fstab`
+
+![blkid](./img/30-blkid.PNG)
+
+![fstab](./img/31-fstab.PNG)
+
+* Test the configuration: `sudo mount -a`
+
+* Reload the daemon: `sudo systemctl daemon-reload`
+
+* Verify your setup by running `df -h`, output must look like this:
+
+![df-h](./img/32-df-h.PNG)
 
 ## STEP 5: INSTALLING WORDPRESS ON THE WEB SERVER EC2 INSTANCE
+
+* Update the repository: `sudo yum -y update`
+
+* Install wget, Apache and it’s dependencies: `sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json`
+
+* Start Apache: `sudo systemctl enable httpd`
+
+                `sudo systemctl start httpd `
+
 
 
 ## STEP 6: INSTALLING MYSQL ON THE DATABASE SERVER EC2 INSTANCE
