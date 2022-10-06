@@ -10,4 +10,8 @@ Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 
 [Project 4: DEPLOYING A SIMPLE BOOK REGISTER APPLICATION WITH MEAN STACK IN AWS CLOUD](https://github.com/meetmayowa/DevOps-PBL/blob/main/project4.md)
 
+[Auxillary Project 1 : IMPLEMENTATION OF A CLIENT SERVER ARCHITECTURE USING MYSQL DATABASE MANAGEMENT SYSTEM (DBMS).](https://github.com/meetmayowa/DevOps-PBL/blob/main/project5.md)
+
 [Project 5: IMPLEMENTATION OF A CLIENT SERVER ARCHITECTURE USING MYSQL DATABASE MANAGEMENT SYSTEM (DBMS).](https://github.com/meetmayowa/DevOps-PBL/blob/main/project5.md)
+
+[Project 6: IMPLEMENTING LOGICAL VOLUME MANAGEMENT AND WORDPRESS WEB SOLUTION PROJECT](https://github.com/meetmayowa/DevOps-PBL/blob/main/project5.md)
