@@ -14,4 +14,4 @@ Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 
 [Project 5: IMPLEMENTATION OF A CLIENT SERVER ARCHITECTURE USING MYSQL DATABASE MANAGEMENT SYSTEM (DBMS).](https://github.com/meetmayowa/DevOps-PBL/blob/main/project5.md)
 
-[Project 6: IMPLEMENTING LOGICAL VOLUME MANAGEMENT AND WORDPRESS WEB SOLUTION PROJECT](https://github.com/meetmayowa/DevOps-PBL/blob/main/project5.md)
+[Project 6: IMPLEMENTING LOGICAL VOLUME MANAGEMENT AND WORDPRESS WEB SOLUTION PROJECT](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project6-Implementing_lvs_and_wordpress_web_solution_project/project6.md)
