@@ -149,7 +149,7 @@ We are going to make the 2 Logical Volume a filesystem
 
 ## STEP 4: PREPARING THE DATABASE SERVER
 
-Please note that I created the db-server along side with the web server at the  beginning of the setup.
+Please note that I created the db-server along side with the web server at the beginning of the setup.
 
  **Note: We are going to repeat all the steps taken to configure the webserver on the  db server. We changed the apps-lv logiical voulme to db-lv**
 
@@ -161,10 +161,11 @@ Please note that I created the db-server along side with the web server at the  
 
 * Creating 3 EBS volumes in the same Availability Zone (us-east-1c) with my EC2 instance created. 
 
-After a successful SSH connection to the EC2 instance on my terminal, running the following commands:
+* After a successful SSH connection to the EC2 instance on my terminal, running the following commands:
 
-To inspect what block devices are attached to the server: `lsblk`
-To see all mounts and free space: `df –h`
+* To inspect what block devices are attached to the server: `lsblk`
+
+* To see all mounts and free space: `df –h`
 
 ![mount](./img/24-mount.PNG)
 
@@ -177,7 +178,7 @@ To see all mounts and free space: `df –h`
 
 * I followed the same process to create single partition for the xvdg and xvdh drives respectively
 
-* Use lsblk utility to view the newly configured partition on each of the 3 disks.
+* Use `lsblk` utility to view the newly configured partition on each of the 3 disks.
 
 ![verify](./img/24-verify.PNG)
 
@@ -232,17 +233,146 @@ To see all mounts and free space: `df –h`
 
 ## STEP 5: INSTALLING WORDPRESS ON THE WEB SERVER EC2 INSTANCE
 
-* Update the repository: `sudo yum -y update`
+1. Update the repository: `sudo yum -y update`
 
-* Install wget, Apache and it’s dependencies: `sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json`
+2. Install wget, Apache and it’s dependencies: `sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json`
 
-* Start Apache: `sudo systemctl enable httpd`
+![repository](./img/33-repository.PNG)
 
-                `sudo systemctl start httpd `
+3. Start Apache: 
 
+    `sudo systemctl enable httpd`
 
+    `sudo systemctl start httpd `
+
+![httpd](./img/34-httpd.PNG)
+
+4. To install PHP and it’s dependencies
+
+```
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo yum install yum-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+sudo yum module list php
+sudo yum module reset php
+sudo yum module enable php:remi-7.4
+sudo yum install php php-opcache php-gd php-curl php-mysqlnd
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
+setsebool -P httpd_execmem 1
+
+```
+
+![php](./img/36-php2.PNG)
+![httpd](./img/35-php.PNG)
+
+5. Restart Apache:  `sudo systemctl restart httpd`
+
+6. Downloading Wordpress
+ 
+* Creating a folder and entering into it: `mkdir wordpress && cd wordpress`
+
+* Downloading wordpress: `sudo wget http://wordpress.org/latest.tar.gz`
+
+* Extracting the file: `sudo tar xzvf latest.tar.gz`
+
+![wordpress](./img/37-wordpress.PNG)
+
+* Renaming the file wp-config-sample.php to wp-config.php: `cp -R wp-config-sample.php wp-config.php`
+
+![wordpress](./img/39-config.PNG)
+* We now copy the content of wordpress into the var/www/html: `sudo cp -R wordpress/. /var/www/html/`
+* Verify the content: `sudo ls -l /var/www/html`
+
+![wordpress](./img/40-move-wp.PNG)
 
 ## STEP 6: INSTALLING MYSQL ON THE DATABASE SERVER EC2 INSTANCE
 
+* Configuring the database server: `sudo yum update`
+
+* Installing MySQL: `sudo yum install mysql-server`
+
+![mysql](./img/41-mysql.PNG)
+
+* Verify that the service is up and running by using `sudo systemctl status mysqld`
+
+![mysql](./img/42-mysql-active.PNG)
 
 ## STEP 7: CONFIGURING DB TO WORK WITH WORDPRESS
+
+* Activating the mysql shell: `sudo mysql`
+* Enter Mysql Password: `sudo mysql -u root -p`
+* Creating a database called ‘wordpress’: `mysql> CREATE DATABASE wordpress;`
+
+* Creating a remote user: `mysql> CREATE USER 'myuser'@'%' IDENTIFIED WITH mysql_native_password by 'PassWord.1';`
+
+* Granting all privileges to the user: `mysql> GRANT ALL PRIVILEGES ON wordpress.* TO 'myuser'@'%';`
+
+* Flushing the privileges so that MySQL will begin to use them: `mysql> FLUSH PRIVILEGES;`
+* Checking the user and host assigned to: `mysql> select user, host from mysql.users`
+* Exiting from MySQL shell: `mysql> exit`
+
+
+![mysql](./img/43-db-created.PNG)
+
+![mysql](./img/44-databases.PNG)
+
+
+
+
+## STEP 7: CONFIGURING WORDPRESS TO CONNECT TO REMOTE DATABASE
+
+
+* Adding a rule to the database server security group to be able to listen to TCP port 3306 and allow access to the web server IP address only.
+
+![ssh](./img/45-ssh.PNG)
+
+* Configure the mysql: `sudo vi /etc/my.cnf`
+* Restart the server: `sudo systemctl restart mysqld`
+
+![mysql-conf](./img/46-mysql-conf.PNG)
+
+![mysql-conf](./img/46-mysql-conf.PNG)
+
+* Installing mysql client: `sudo yum install mysql`
+
+
+
+
+* Connecting the Database server with Mysql: `sudo mysql -u admin -p -h <DB-Server-Private-IP-address>`
+
+`sudo mysql -u wordpress -p -h 172.31.87.180` (I changed the username from 'wordpress' to 'myuser')
+
+`sudo mysql -u myuser -p -h 172.31.87.180`
+
+
+* Verify if you can successfully execute SHOW DATABASES; command and see a list of existing databases.
+
+![db](./img/50-db.PNG)
+
+* Enable TCP port 80 in Inbound Rules configuration for your Web Server EC2 (enable from everywhere 0.0.0.0/0 or from your workstation’s IP)
+
+
+![mysql-conf](./img/51-tcp.PNG)
+
+
+* I accessed from your browser the link to your WordPress 
+`http://<Web-Server-Public-IP-Address>`
+
+   `http://54.92.208.222/wp-admin`
+
+
+![install](./img/53-install.PNG)
+
+* Wordpress Configuration page
+
+![install](./img/54-wordpress.PNG)
+
+* Wordpress Login page
+
+![install](./img/55-login.PNG)
+
+
+
+* I have successfully configured Linux storage susbystem and have also deployed a full-scale Web Solution using WordPress CMS and MySQL RDBMS!
+
+
