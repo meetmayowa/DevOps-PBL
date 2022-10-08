@@ -331,11 +331,11 @@ setsebool -P httpd_execmem 1
 
 ![mysql-conf](./img/46-mysql-conf.PNG)
 
-![mysql-conf](./img/46-mysql-conf.PNG)
+
 
 * Installing mysql client: `sudo yum install mysql`
 
-
+![client](./img/47-client.PNG)
 
 
 * Connecting the Database server with Mysql: `sudo mysql -u admin -p -h <DB-Server-Private-IP-address>`
@@ -347,12 +347,12 @@ setsebool -P httpd_execmem 1
 
 * Verify if you can successfully execute SHOW DATABASES; command and see a list of existing databases.
 
-![db](./img/50-db.PNG)
+![db](./img/50-Db.PNG)
 
 * Enable TCP port 80 in Inbound Rules configuration for your Web Server EC2 (enable from everywhere 0.0.0.0/0 or from your workstation’s IP)
 
 
-![mysql-conf](./img/51-tcp.PNG)
+![tcp](./img/51-tcp.PNG)
 
 
 * I accessed from your browser the link to your WordPress 
@@ -365,11 +365,11 @@ setsebool -P httpd_execmem 1
 
 * Wordpress Configuration page
 
-![install](./img/54-wordpress.PNG)
+![wordpress](./img/54-wordpress.PNG)
 
 * Wordpress Login page
 
-![install](./img/55-login.PNG)
+![login](./img/55-login.PNG)
 
 
 
