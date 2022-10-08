@@ -167,7 +167,7 @@ Please note that I created the db-server along side with the web server at the b
 
 * To see all mounts and free space: `df –h`
 
-![mount](./img/24-mount.PNG)
+![mount](./img/244-mount.PNG)
 
 **Creating a single partition on each of the 3 disks:**
 
@@ -361,7 +361,7 @@ setsebool -P httpd_execmem 1
    `http://54.92.208.222/wp-admin`
 
 
-![install](./img/53-install.PNG)
+![install](./img/53-Install.PNG)
 
 * Wordpress Configuration page
 
