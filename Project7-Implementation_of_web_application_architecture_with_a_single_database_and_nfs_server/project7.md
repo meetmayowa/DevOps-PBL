@@ -9,9 +9,11 @@ In this project, I implemented a DevOps tooling website solution which makes acc
 
 3- A Database Server: Ubuntu 20.04 for reads and write
 
-4- A Storage Server: Red Hat Enterprise Linux 8 that will serve as NFS Server for storing shared files that the 3 Web Servers will use
+4- A Storage Server: Red Hat Enterprise Linux 8 that will serve as NFS Server for storing shared files that the 3 Web Servers will use.
+
 5- Programming Language: PHP
-Code Repository: GitHub
+
+6- Code Repository: GitHub
 
 The following are the steps I took to set up this 3-tier 
 Web Application Architecture with a single database and an NFS server as a shared file storage:
@@ -488,7 +490,7 @@ For WEBSERVER 3
 ![db-connect](./img/73-db-connect.PNG)
 
 
-* Apply tooling-db.sql script to your database using this command: `mysql -h <database-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`
+* 11 -  Apply tooling-db.sql script to your database using this command: `mysql -h <database-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`
 
 
 e.g `mysql -h 172.31.87.110 -u webaccess -p PassWord.1 < tooling-db.sql`
