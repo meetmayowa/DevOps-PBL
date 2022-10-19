@@ -24,11 +24,11 @@ Web Application Architecture with a single database and an NFS server as a share
 
 2 - Creating 3 EBS volumes in the same Availability Zone (us-east-1c) with my EC2 instance created.
   
-   ![ec2](./img/1-ec2.PNG)
+   ![volume](./img/2-volume.PNG)
 
 * Attach a volume each to an instance to use it as you would a regular physical hard disk drive.
 
-![ec2](./img/1-ec2.PNG)
+![attach](./img/3-attach.PNG)
 
 PARTITIONING THE VOLUMES ATTACHED TO THE EC2 INSTANCE AND CREATING LOGICAL VOLUME WITH IT.
 
@@ -41,7 +41,7 @@ After a successful SSH connection to the EC2 instance on my terminal, running th
 * To inspect what block devices are attached to the server: `lsblk`
 * To see all mounts and free space: `df –h`
 
-![ec2](./img/1-ec2.PNG)
+![df-h](./img/4-df-h.PNG)
 
 * Creating a single partition on each of the 3 disks:
 * For xdvf disk: `sudo gdisk /dev/xvdf`
@@ -49,43 +49,41 @@ After a successful SSH connection to the EC2 instance on my terminal, running th
 * Accepting all the defaults settings and selecting Linux LVM type of partition by entering 8300 code and hit enter
 * Entering the `‘w’` key to write the new partition created and confirming with the `‘Y’` and hit enter.
 
-![ec2](./img/2-lvm.PNG)
+![xvdf](./img/5-xvdf.PNG)
 
 * I followed the same process to create single partition for the xvdg and xvdh drives respectively
 
 * Use lsblk utility to view the newly configured partition on each of the 3 disks. `lsblk`
 
-![ec2](./img/2-lvm.PNG)
+![lsblk](./img/6-lsblk.PNG)
 
-* Installing LVM2 package for creating logical volumes on a linux server using this command: sudo yum install lvm2
+* Installing LVM2 package for creating logical volumes on a linux server using this command: `sudo yum install lvm2 -y`
 
-![ec2](./img/2-lvm.PNG)
+![lvm2](./img/7-lvm2.PNG)
 
 Note: Previously, in Ubuntu we used apt command to install packages, in RedHat/CentOS a different package manager is used, so we shall use yum command instead.
 
 * Checking for available partitions: `sudo lvmdiskscan`
 
-![ec2](./img/2-lvm.PNG)
+![diskscan](./img/8-diskscan.PNG)
 
 * Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM: `sudo pvcreate /dev/xvdf1 /dev/xvdg1 /dev/xvdh1`
 
-![ec2](./img/2-lvm.PNG)
+![pvcreate](./img/9-pvcreate.PNG)
 
-* Check if all the physical voulumes have been created properly
+* Check if all the physical voulumes have been created properly: `sudo pvs`
 
+![pvs](./img/10-pvs.PNG)
 
-![ec2](./img/2-lvm.PNG)
 
 * Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg: `sudo vgcreate webdata-vg /dev/xvdf1 /dev/xvdg1 /dev/xvdh1`
 
 * Verify that my VG has been created successfully by running:  `sudo vgs`
 
-
-* On the Volume group, we can now create our Logical Volume (db-lv)
-
+![pvs](./img/11-vgs.PNG)
 
 
-![ec2](./img/2-lvm.PNG)
+
 
 * On the Volume group, we can now create our Logical Volume (lv-apps, lv-logs and lv-opt)
 
@@ -100,15 +98,15 @@ NOTE:
 `lv-opt` will be used by Jenkins server in Project 8.
 
 
-![ec2](./img/2-lvm.PNG)
+![lvcreate](./img/12-lvcreate.PNG)
 
 * To display the entire setup, use this command: `sudo vgdisplay -v`
 
-![ec2](./img/2-lvm.PNG)
+![vgdisplay](./img/13-vgdisplay.PNG)
 
 * And also use this command: `sudo lsblk`  to display the entire setup
 
-![ec2](./img/2-lvm.PNG)
+![lsblk](./img/14-lsblk.PNG)
 
 
 ### FORMATTING AND MOUNTING THE LOGICAL VOLUMES
@@ -123,103 +121,110 @@ We are going to make the 2 Logical Volume a filesystem
 
 `sudo mkfs -t xfs /dev/webdata-vg/lv-opts`
 
-![ec2](./img/2-lvm.PNG)
+![ext](./img/15-ext.PNG)
 
 
-* Next is to create a mount point for our devices
+* ## Next is to create a mount point for our devices
 
-* Creating a directory where the website files will be stored: `sudo mkdir –p /var/www/html`
+* Create mount points on /mnt directory for the logical volumes as follow: 
+  
+   `sudo mkdir /mnt/apps`
 
-* Create /home/recovery/logs to store backup of log data: `sudo mkdir -p /home/recovery/logs`
+   `sudo mkdir /mnt/logs`
 
-* Mounting apps-lv logical volume on /var/www/html: `sudo mount /dev/webdata-vg/apps-lv /var/www/html`
+   `sudo mkdir /mnt/opt`
+  
+ * Mounting the 3 logical volumes:
+ 
+   `sudo mount /dev/webdata-vg/lv-apps /mnt/apps`
 
-* Check the log to make sure it is empty, if it is not then you will need to back it up. Use this command to check: `sudo ls -l /var/log`
+   `sudo mount /dev/webdata-vg/lv-logs /mnt/logs`
 
-![ec2](./img/2-lvm.PNG)
+   `sudo mount /dev/webdata-vg/lv-opt /mnt/opt`
 
+  
 
-* Using rsync utility to backup all the files in the log directory /var/log into /home/recovery/logs: sudo rsync –av /var/log/. /home/recovery/logs/
+![mount](./img/16-mount.PNG)
 
-![ec2](./img/2-lvm.PNG)
-
-
-
-* Use this command line to confirm that it has been backed up: `sudo ls -l /home/recovery/logs/log`
-
-* We can go ahead and mount on var/log directory: `sudo mount /dev/webdata-vg/logs-lv /var/log`
-
-* Its very important we restore back the files that we backup earlier into var/log directory by using the following command: `sudo rsync -av /home/recovery/logs/. /var/log`
-
-![ec2](./img/2-lvm.PNG)
+* To verify the mounts:$ df -h
 
 
-* Locate the UUID of the device that will be used to update the /etc/fstab file and copy it: `sudo blkid`
+![verify](./img/17-verify.PNG)
+
+* To get information on the UUID of the disk mounted: `sudo blkid`
+
+![blkid](./img/18-blkid.PNG)
 
 
-![ec2](./img/2-lvm.PNG)
+
+* Configuring the fstab file to enable the mounts to persist on boot: `sudo vi /etc/fstab` 
 
 
-* Updating the fstab file so that mount configuration will persist after restart of the server:
+![uuid](./img/19-uuid.PNG)
 
-`sudo vi /etc/fstab`
 
-* Test the configuration: sudo mount -a
 
-* Reload the daemon: sudo systemctl daemon-reload
+* Test the configuration: `sudo mount -a`
+
+* Reload the daemon: `sudo systemctl daemon-reload`
 
 * Verify your setup by running `df -h`, output must look like this:
 
 
-![ec2](./img/2-lvm.PNG)
+![daemon](./img/20-daemon.PNG)
 
-**3 - Create mount points on /mnt directory for the logical volumes as follow:**
 
-* Mount lv-apps on /mnt/apps – To be used by webservers
-* Mount lv-logs on /mnt/logs – To be used by webserver logs
-* Mount lv-opt on /mnt/opt – To be used by Jenkins server in Project 8
-
-![ec2](./img/2-lvm.PNG)
 
 **4 - Install NFS server, configure it to start on reboot and make sure it is u and running**
 
 
-```
-sudo yum -y update
-sudo yum install nfs-utils -y
-sudo systemctl start nfs-server.service
-sudo systemctl enable nfs-server.service
-sudo systemctl status nfs-server.service
-```
+* Update the server: `sudo yum -y update`
+
+![update](./img/21-update.PNG)
+
+* Installing NFS server utilities: `sudo yum install nfs-utils -y`
 
 
-![lvm](./img/2-lvm.PNG)
+![install](./img/22-install.PNG)
 
 
-* Export the mounts for webservers’ subnet cidr to connect as clients.
+* Starting nfs server: `sudo systemctl start nfs-server.service`
 
+* Enabling nfs server: `sudo systemctl enable nfs-server.service`
 
-![ec2](./img/1-ec2.PNG)
+* Viewing the status of the nfs server: `sudo systemctl status nfs-server.service`
 
-* Make sure we set up permission that will allow our Web servers to read, write and execute files on NFS:
+![nfs-server](./img/23-nfs-server.PNG)
 
-```
-sudo chown -R nobody: /mnt/apps
-sudo chown -R nobody: /mnt/logs
-sudo chown -R nobody: /mnt/opt
+* Make sure we set up permission that will allow our Web servers to read, write and execute files on NFS.
 
-sudo chmod -R 777 /mnt/apps
-sudo chmod -R 777 /mnt/logs
-sudo chmod -R 777 /mnt/opt
+Changing the ownership of the 3 directories where disks are mounted:
 
-sudo systemctl restart nfs-server.service
+   `sudo chown -R nobody: /mnt/apps`
 
-```
+   `sudo chown -R nobody: /mnt/logs`
 
+   `sudo chown -R nobody: /mnt/opt`
 
-![ec2](./img/2-lvm.PNG)
+![nfs-server](./img/24-chown.PNG)
+
+* Changing the permission of the 3 directories where disks are mounted:
+
+   `sudo chmod -R 777 /mnt/apps`     
+
+   `sudo chmod -R 777 /mnt/logs`
+
+   `sudo chmod -R 777 /mnt/opt`
+
+* Restarting the nfs service: `sudo systemctl restart nfs-server.service`
+
+![nfs-server](./img/25-ownership.PNG)
+
 
 * Configure access to NFS for clients within the same subnet (example of Subnet CIDR – 172.31.32.0/20 ):
+
+* Opening the NFS export file `sudo vi /etc/exports`
+* Entering the following configuration:
 
 ```
 sudo vi /etc/exports
@@ -228,11 +233,15 @@ sudo vi /etc/exports
 /mnt/logs <Subnet-CIDR>(rw,sync,no_all_squash,no_root_squash)
 /mnt/opt <Subnet-CIDR>(rw,sync,no_all_squash,no_root_squash)
 
-Esc + :wq!
-
-sudo exportfs -arv
-
 ```
+![export](./img/26-export.PNG)
+
+
+* Export the mounts for webservers’ subnet cidr to connect as clients.
+
+
+![arv](./img/27-arv.PNG)
+
 
 
 **6 - Check which port is used by NFS and open it using Security Groups (add new Inbound Rule)**
@@ -240,38 +249,40 @@ sudo exportfs -arv
 `rpcinfo -p | grep nfs`
 
 
-![ec2](./img/2-lvm.PNG)
+![port](./img/28-port.PNG)
 
 
 * Important note: In order for NFS server to be accessible from our client, we must also open following ports: TCP 111, UDP 111, UDP 2049
 
 
-![ec2](./img/1-ec2.PNG)
+![security](./img/29-security.PNG)
 
 
 ## STEP 2: CONFIGURE THE DATABASE SERVER
 
-* Configuring the database server: `sudo yum update`
+* Configuring the database server: `sudo apt update`
 
-* Installing MySQL: `sudo yum install mysql-server`
+![update](./img/30-update.PNG)
 
-![ec2](./img/2-lvm.PNG)
+* upgrade the database server: `sudo apt upgrade`
 
-* Verify that the service is up and running by using `sudo systemctl status mysqld`
+![upgrade](./img/31-upgrade.PNG)
 
-![ec2](./img/2-lvm.PNG)
+* Installing MySQL: `sudo apt install mysql-server`
 
-**CONFIGURING MYSQL DBMS TO WORK WITH REMOTE WEBSERVER**
+![mysql](./img/32-mysql.PNG)
+
+
+
+**CONFIGURE THE DATABASE SERVER**
 
 * Activating the mysql shell: `sudo mysql`
 
-* Enter Mysql Password: `sudo mysql -u root -p`
-
 * Creating a database called ‘tooling’: `mysql> CREATE DATABASE tooling;`
 
-* Creating a remote user called 'webaccess': `mysql> CREATE USER 'webaccess'@'%' IDENTIFIED WITH mysql_native_password by 'PassWord.1';`
+* Creating a remote user called 'webaccess': `mysql> CREATE USER 'webaccess'@'172.31.80.0/20' IDENTIFIED WITH mysql_native_password by 'PassWord.1';`
 
-* Grant permission to webaccess user on tooling database to do anything only from the webservers subnet cidr: `mysql> GRANT ALL PRIVILEGES ON tooling.* TO 'webaccess'@'172.132.8.4/20';`
+* Grant permission to webaccess user on tooling database to do anything only from the webservers subnet cidr: `mysql> GRANT ALL PRIVILEGES ON tooling.* TO 'webaccess'@'172.31.80.0/20';`
 
 * Flushing the privileges so that MySQL will begin to use them: `mysql> FLUSH PRIVILEGES;`
 
@@ -279,9 +290,24 @@ sudo exportfs -arv
 
 * Exiting from MySQL shell: `mysql> exit;`
 
-![ec2](./img/2-lvm.PNG)
+![db-mysql](./img/34-db-mysql.PNG)
 
-## STEP 3: PREPARE THE WEB SERVERS
+
+* Adding a rule in the database security group to listen to TCP port 3306 and only allow access from webservers’ subnet cidr:
+
+![group](./img/35-group.PNG)
+
+* Editing the mysqld.cnf file `sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf` and changing the bind-address value from ‘127.0.0.1’ to ‘0.0.0.0’
+
+![group](./img/36-config.PNG)
+
+
+* Restarting the mysql service: `sudo systemctl restart mysql`
+
+![status](./img/37-status.PNG)
+
+
+# STEP 3: PREPARE THE WEB SERVER
 
 We need to make sure that our Web Servers can serve the same content from shared storage solutions, in our case – NFS Server and MySQL database.
 
@@ -292,10 +318,23 @@ During the next steps we will do following:
 * Configure the Web Servers to work with a single MySQL database
 
 
-1- Launch a new EC2 instance with RHEL 8 Operating System
+*  Launch a new EC2 instance with RHEL 8 Operating System for the 3 webservers 
 
-![ec2](./img/1-ec2.PNG)
+![instance](./img/38-instance.PNG)
 
+1- Update the 3 Webservers: `sudo yum update`
+
+* WEBSERVER 1
+
+![ec2](./img/2-lvm.PNG)
+
+* WEBSERVER 2
+
+![ec2](./img/2-lvm.PNG)
+
+* WEBSERVER 3
+
+![ec2](./img/2-lvm.PNG)
 
 2- Install NFS client: `sudo yum install nfs-utils nfs4-acl-tools -y`
 
@@ -317,7 +356,7 @@ add following line
 
 `<NFS-Server-Private-IP-Address>:/mnt/apps /var/www nfs defaults 0 0`
 
-e.g `172.123.8.1:/mnt/apps /var/www/ nfs defaults 0 0`
+e.g `172.31.84.225:/mnt/apps /var/www nfs defaults 0 0`
 
 ![ec2](./img/2-lvm.PNG)
 
@@ -350,9 +389,28 @@ setsebool -P httpd_execmem 1
 
 You can try to create a new file touch test.txt from one server
 
+![text](./img/57-text.PNG)
+
+
+For NFS SERVER
+
+
+![text](./img/58-nfs-server.PNG)
 
 7 - Locate the log folder for Apache on the Web Server and mount it to NFS server’s export for logs
 `sudo mount -t nfs -o rw,nosuid 172.31.17.5:/mnt/logs /var/log/httpd`
+
+For WEBSERVER 1
+![httpd](./img/59-httpd.PNG)
+
+
+For WEBSERVER 2
+![httpd2](./img/60-httpd2.PNG)
+
+
+For WEBSERVER 3
+![httpd3](./img/61-httpd3.PNG)
+
 
 * Repeat step №4 to make sure the mount point will persist after reboot.
 
@@ -360,45 +418,95 @@ You can try to create a new file touch test.txt from one server
 `<NFS-Server-Private-IP-Address>:/mnt/logs /var/log/httpd nfs defaults 0 0`
 e.g `172.123.8.1:/mnt/apps /var/log/httpd nfs defaults 0 0`
 
-![ec2](./img/2-lvm.PNG)
+For WEBSERVER 1
+![httpd](./img/62-fstab.PNG)
 
 
-8 - Fork the tooling source code from Darey.io Github Account to your Github account.
+For WEBSERVER 2
+![httpd2](./img/63-fstab2.PNG)
+
+
+For WEBSERVER 3
+![httpd3](./img/64-fstab3.PNG)
+
+
+## 8 - Fork the tooling source code from Darey.io Github Account to your Github account.
 
 * Install git on the webserver: `sudo yum install git`
 
+
+![git](./img/65-git.PNG)
+
 * Initialize a git entry repository: `git init`
 
+![git-init](./img/66-git-init.PNG)
+
 * Go to Darey.io Github account, click on code and copy the HTTPS url from the Github repository.
+
+
+![darey](./img/67-darey.PNG)
 
 * Next clone the git url on our terminal with this command: 
 `git clone https://github.com/darey-io/tooling.git`
  
 
 
-![ec2](./img/2-lvm.PNG)
+![clone](./img/68-clone.PNG)
 
 
  9 - Deploy the tooling website’s code to the Webserver. Ensure that the html folder from the repository is deployed to /var/www/html
 
- * Copy the content of html directory inside the tooling directory into the /var/www/html with this command: `sudo cp -R html/. /var/www/html/`
+ * Change Directory into tooling directory: `cd tooling`
+
+
+* Copy the content of html directory inside the tooling directory into the /var/www/html with this command: `sudo cp -R html/. /var/www/html/`
 
 * We can now confirm that the files are copied to the right location: `ls /var/www/html`
 
-![ec2](./img/2-lvm.PNG)
+
+![tooling](./img/69-tooling.PNG)
+
+
 
 * Note: To allow http connection into the webserver, we opened Port 80 on our webserver inside the EC2 instance 
 
-![ec2](./img/1-ec2.PNG)
-
-Note 2: When we encountered 403 Error – we checked permissions to our /var/www/html folder and also `disable` SELinux `sudo setenforce 0`
+![http-80](./img/70-http80.PNG)
 
 
 
-10 - Update the website’s configuration to connect to the database (in `/var/www/html/functions.php` file). Apply tooling-db.sql script to your database using this command: `mysql -h <databse-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`
+* To make this change permanent – open following config file `sudo vi /etc/sysconfig/selinux` and set `SELINUX=disabled`then restrt httpd.
+
+![selinux](./img/71-selinux.PNG)
+
+### 10 - Update the website’s configuration to connect to the database (in `/var/www/html/functions.php` file) using this command:
+
+`sudo vi /var/www/html/functions.php`
+
+* Update the mysqli_connect `$db = mysqli_connect('172.31.87.110', 'webaccess', 'PassWord.1', 'tooling');`
 
 
-e.g `mysql -h 172.132.2.1 -u webaccess -p PassWord.1 < tooling-db.sql`
+![db-connect](./img/73-db-connect.PNG)
+
+
+* Apply tooling-db.sql script to your database using this command: `mysql -h <database-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`
+
+
+e.g `mysql -h 172.31.87.110 -u webaccess -p PassWord.1 < tooling-db.sql`
+
+
+![db-connect](./img/73-db-connect.PNG)
+
+* 12 - I opened the website in my browser `http://<Web-Server-Public-IP-Address-or-Public-DNS-Name>/index.php` 
+
+e.g `http://44.202.44.72/index.php`
+
+![login](./img/76-login.PNG)
+
+
+* After login, the homepage the website was displayed
+
+![homepage](./img/80-homepage.PNG)
+
 
 
 **Hola, Done!**
