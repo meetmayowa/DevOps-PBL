@@ -81,4 +81,4 @@ To be able to connect to server A from server B a remote user is created and gra
 
 ![remote](./images/58-remote-access.PNG)
 
-Hola! It was fun!
+Hola! It was fun! Thank you!
