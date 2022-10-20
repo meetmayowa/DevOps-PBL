@@ -146,7 +146,7 @@ We are going to make the 2 Logical Volume a filesystem
 
   
 
-![mount](./img/16-mount.PNG)
+![mount](./img/16-mnt.png)
 
 * To verify the mounts:$ df -h
 
