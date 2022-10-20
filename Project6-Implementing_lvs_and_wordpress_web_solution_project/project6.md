@@ -375,4 +375,5 @@ setsebool -P httpd_execmem 1
 
 * I have successfully configured Linux storage susbystem and have also deployed a full-scale Web Solution using WordPress CMS and MySQL RDBMS!
 
+Thank you!
 
