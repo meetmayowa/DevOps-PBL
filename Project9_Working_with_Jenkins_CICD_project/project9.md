@@ -99,6 +99,7 @@ To setup a virtual server, I Created a new EC2 Instance of t2.nano family with U
 
 ![install](./img/14-user.PNG)
 
+* Instance configuration page
 
 ![instance](./img/12-instance.PNG)
 
