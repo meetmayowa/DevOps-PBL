@@ -140,25 +140,24 @@ This will done by going to the Github settings of the tooling repository and cli
 
 * To connect my GitHub repository, I provided its URL, I copied it from the repository itself. 
 
-![ec2](./img/1-ec2.PNG)
+![repo](./img/18-repo.PNG)
 
 
 * In configuration of my Jenkins freestyle project, I choose Git repository, provided there the link to my Tooling GitHub repository and credentials (user/password) so Jenkins could access files in the repository.
 
-![ec2](./img/1-ec2.PNG)
+![jenkins](./img/19-jenkins.PNG)
 
 
 * I saved the configuration and ran the build. For now I did it manually.
 
-![ec2](./img/1-ec2.PNG)
 
 * I Clicked "Build Now" button, and the build was successfull and I saw it under #1
 
-![ec2](./img/1-ec2.PNG)
+![credential](./img/20-credential.PNG)
 
 * I opened the build and check in "Console Output" and I saw it ran successfully.
 
-![ec2](./img/1-ec2.PNG)
+![build](./img/21-build.PNG)
 
 * 3 -  To make sure that the build runs automatically whenever a change is made on the Git repository via the webhooks, I proceeded to click on "configure"
 
@@ -167,20 +166,23 @@ This will done by going to the Github settings of the tooling repository and cli
 * On the Build Triggers section, selecting GitHub hook trigger for GITScm polling
 
 
-![ec2](./img/1-ec2.PNG)
+![build-trigger](./img/23-build-trigger.PNG)
 
 * And on the Post-build Actions, clicking on Add post-build action and selecting Archive the artifacts to archive all the files resulted from the build
 
-![ec2](./img/1-ec2.PNG)
+![archive](./img/24-archive.PNG)
+
+
+![save](./img/25-save.PNG)
 
 
 * Now, I went ahead and make some change README.MD file in my GitHub repository and push the changes to the master branch.
 
-![ec2](./img/1-ec2.PNG)
+![readme](./img/26-readme.PNG)
 
 * A new build has been launched automatically (by webhook) and I could see its results – artifacts, saved on Jenkins server.
 
-![ec2](./img/1-ec2.PNG)
+![build](./img/27-build.PNG)
 
 * I have now configured an automated Jenkins job that receives files from GitHub by webhook trigger (this method is considered as ‘push’ because the changes are being ‘pushed’ and files transfer is initiated by GitHub). 
 
@@ -249,12 +251,19 @@ SSH: Transferred 25 file(s)
 Finished: SUCCESS
 ```
 
+
+
+![console](./img/36-console.PNG)
+
+
 * To make sure that the files in /mnt/apps have been updated – connect via SSH/Putty to your NFS server and check README.MD file  
 
 Confirming whether the artifacts are suucessfully sent to NFS server in the /mnt/opt directory:
 
 
 `cat /mnt/apps/README.md`
+
+![console](./img/37-nfs-server.PNG)
 
 
 * I saw the changes I had previously made in my GitHub – the job works as expected.
