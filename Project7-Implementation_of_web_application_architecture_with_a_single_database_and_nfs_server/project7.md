@@ -136,7 +136,7 @@ We are going to make the 2 Logical Volume a filesystem
 
    `sudo mkdir /mnt/opt`
   
- * Mounting the 3 logical volumes:
+* Mounting the 3 logical volumes:
  
    `sudo mount /dev/webdata-vg/lv-apps /mnt/apps`
 
