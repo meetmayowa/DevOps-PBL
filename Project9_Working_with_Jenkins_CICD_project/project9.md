@@ -127,14 +127,18 @@ This will done by going to the Github settings of the tooling repository and cli
 
 * 1 - Enable webhooks in your GitHub repository settings
 
-![ec2](./img/1-ec2.PNG)
+![webhook](./img/16-webhook.PNG)
 
+
+![webhoo2k](./img/16-webhook2.PNG)
 
 * 2 - Go to Jenkins web console, click "New Item" and create a "Freestyle project"
 
-![ec2](./img/1-ec2.PNG)
+![freestyle](./img/17-freestyle.PNG)
 
-* To connect my GitHub repository, I provided its URL, I copied it from the repository itself
+* Firstly, I clicked on the general configuration and clicked on "Git" button under the source code management
+
+* To connect my GitHub repository, I provided its URL, I copied it from the repository itself. 
 
 ![ec2](./img/1-ec2.PNG)
 
@@ -185,7 +189,9 @@ This will done by going to the Github settings of the tooling repository and cli
 
 `ls /var/lib/jenkins/jobs/tooling_github/builds/<build_number>/archive/`
 
-![ec2](./img/2-lvm.PNG)
+e.g. ` ls /var/lib/jenkins/jobs/tooling_github/builds/3/archive/`
+
+![buildno](./img/30-buildno.PNG)
 
 
 # CONFIGURE JENKINS TO COPY FILES TO NFS SERVER VIA SSH
@@ -203,29 +209,36 @@ Jenkins is a highly extendable application and there are 1400+ plugins available
 > On "Available" tab search for "Publish Over SSH" plugin and install it
 
 
-![ec2](./img/1-ec2.PNG)
+![publish](./img/31-publish.PNG)
+
+
+![plugins](./img/32-plugins.PNG)
 
 * Configuring the publish over ssh on the Manage Jenkins > Configure system settings to connect to the NFS server and setting the remote directory path to the /mnt/opt. Using the NFS server Private IP as the Hostname:
 
 Scroll down to Publish over SSH plugin configuration section and configure it to be able to connect to your NFS server:
 
 1-Provide a private key (content of .pem file that you use to connect to NFS server via SSH/Putty)
-2-Arbitrary name
-3-Hostname – can be private IP address of your NFS server
-4-Username – ec2-user (since NFS server is based on EC2 with RHEL 8)
-5-Remote directory – /mnt/apps since our Web Servers use it as a mointing point to retrieve files from the NFS server
 
-![ec2](./img/1-ec2.PNG)
+2-Arbitrary name
+
+3-Hostname – can be private IP address of your NFS server
+
+4-Username – ec2-user (since NFS server is based on EC2 with RHEL 8)
+
+5-Remote directory – /mnt/apps since our Web Servers use it as a mounting point to retrieve files from the NFS server
+
+![ssh-server](./img/33-ssh-server.PNG)
 
 * Test the configuration and make sure the connection returns Success. Remember, that TCP port 22 on NFS server must be open to receive SSH connections.
 
 * I I saved the configuration, open my Jenkins job/project configuration page and add another one "Post-build Action"
 
-![ec2](./img/1-ec2.PNG)
+![over-ssh](./img/34-over-ssh.PNG)
 
 * I Configured it to send all files produced by the build into our previously define remote directory. In our case we copied all files and directories – so we use **.
 
-![ec2](./img/1-ec2.PNG)
+![sourcefile](./img/35-sourcefile.PNG)
 
 
 * I saved this configuration and went ahead, change something in README.MD file in your GitHub Tooling repository.
