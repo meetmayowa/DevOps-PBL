@@ -7,7 +7,7 @@ In this project we are going to start automating part of our routine tasks with 
 
 **TASK**
 
-Enhance the architecture prepared in Project 8 by adding a Jenkins server, configure a job to automatically deploy source codes changes from Git to NFS server.
+Enhance the architecture prepared in [Project 8](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project8_Load_balancer_solution_with_apache/project8.md) by adding a Jenkins server, configure a job to automatically deploy source codes changes from Git to NFS server.
 
 
 ## INSTALL AND CONFIGURE JENKINS SERVER
@@ -25,73 +25,92 @@ To setup a virtual server, I Created a new EC2 Instance of t2.nano family with U
 * Update the server: `sudo apt update`
 
 
-![ec2](./img/2-LVM.PNG)
+![update](./img/2-update.PNG)
 
 
-* Upgrade the server: `sudo apt install default-jdk-headless`
+* Upgrade the server: `sudo apt upgrade`
 
-![ec2](./img/2-LVM.PNG)
+![upgrade](./img/3-upgrade.PNG)
 
-* 2 - Installing the Java Development Kit(JDK): `sudo apt install default-jdk-headless`
+* 3 - Installing the Java Development Kit(JDK): `sudo apt install default-jdk-headless`
 
-![ec2](./img/2-LVM.PNG)
+![headless](./img/3-headless.PNG)
 
 
 * 3- Install Jenkins  
 
 * Acquiring the Jenkin's key: `wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -`
 
-![ec2](./img/2-LVM.PNG)
-
 
 * Adding to the source file the path to Jenkins installation: `sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'`
-
-![ec2](./img/2-LVM.PNG)
 
 
 * Updating the server again: `sudo apt update`
 
-![ec2](./img/2-LVM.PNG)
+![key](./img/4-key.PNG)
+
+
 
 * Installing Jenkins: `sudo apt-get install jenkins`
 
 
-![ec2](./img/2-LVM.PNG)
+![jenkins](./img/5-jenkins.PNG)
+
 
 * To make sure Jenkins is up and running:  `sudo systemctl status jenkins`
+
+
+![systemctl](./img/6-systemctl.PNG)
+
 
 * 4 - By default Jenkins server uses TCP port 8080 – So I opened it by creating a new Inbound Rule in my EC2 Security Group
 
 
-![ec2](./img/1-ec2.PNG)
+![security](./img/7-security.PNG)
+
+
 
 
 * 5 - To perform initial Jenkins setup. From my  browser access Jenkins-Server-Public-IP-Address-or-Public-DNS-Name from port 8080
 
 `http://<Jenkins-Server-Public-IP-Address-or-Public-DNS-Name>:8080`
+ 
+   e.g. `http://44.204.55.136:8080`
 
-![ec2](./img/1-ec2.PNG)
+![unlock](./img/8-unlock.PNG)
 
 * I was prompted to provide a default admin password
  
 
 * To retrieve the password from my server with this command: `sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
 
-![ec2](./img/1-ec2.PNG)
+![password](./img/9-password.PNG)
 
-* Then you will be asked which plugings to install – choose suggested plugins.
+* Then you will be asked which plugings to install – **choose suggested plugins**.
 
-![ec2](./img/1-ec2.PNG)
+![plugins](./img/10-plugins.PNG)
 
+* Installation ongoing: 
+
+
+![install](./img/11-install.PNG)
 
 * Once plugins installation is done – I created an admin user and I got my Jenkins server address.
 
-![ec2](./img/1-ec2.PNG)
+![install](./img/14-user.PNG)
 
 
-* Jenkins is ready to be used
+![instance](./img/12-instance.PNG)
 
-![ec2](./img/1-ec2.PNG)
+* Jenkins is now ready! 
+
+![ready](./img/13-ready.PNG)
+
+
+
+* Jenkins Dashboard
+
+![dashboard](./img/15-dashboard.PNG)
 
 
 **The installation is completed!**
