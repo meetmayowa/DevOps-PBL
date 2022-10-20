@@ -3,7 +3,7 @@
 ## BACKGROUND
 
 
-In this project, I implemented a load balancer solution using Apache which points traffic to two of the webservers in the 3-tier Web Application Architecture that I setup in project 7.
+In this project, I implemented a load balancer solution using Apache which points traffic to two of the webservers in the 3-tier Web Application Architecture that I setup in [Project 7](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project7-Implementation_of_web_application_architecture_with_a_single_database_and_nfs_server/project7.md)
 
 The following are the steps I took in implementing a load balancer solution:
 
@@ -31,7 +31,7 @@ I launched a new EC2 Instance(Ubuntu 20.04) that will serve as the load balancer
 
 Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in Security Group.
 
-![ec2](./img/1-ec2.PNG)
+![security](./img/2-security.PNG)
 
 ## Step 3: Configuring Apache As A Load Balancer In The Ubuntu server
 
@@ -39,13 +39,19 @@ Install Apache Load Balancer on `Project-8-apache-lb` server and configure it to
 
 * Updating the server: `sudo apt update`
 
+![update](./img/3-update.PNG)
+
 * Upgrade the server: `sudo apt upgrade`
 
+![upgrade](./img/4-upgrade.PNG)
+
 * Installing Apache: `sudo apt install apache2 -y`
+
+![apache](./img/5-apache2.PNG)
  
 * Installing libxml2-dev: `sudo apt install libxml2-dev`
 
-![ec2](./img/2-LVM.PNG)
+![lib](./img/6-install.PNG)
 
 
 
@@ -62,23 +68,20 @@ sudo a2enmod lbmethod_bytraffic
 
 ```
 
-![ec2](./img/2-LVM.PNG)
+![modules](./img/7-modules.PNG)
 
 * Restarting Apache: `sudo systemctl restart apache2`
 
+* To make sure apache2 is up and running:`sudo systemctl status apache2`
 
-![ec2](./img/2-LVM.PNG)
-
-* To make sure apache2 is up and running
-
-![ec2](./img/2-LVM.PNG)
+![restart](./img/8-restart.PNG)
 
 
 ## Step 4: To Configure load balancing
 
 * To configure the load balancer, opening the 000-default.conf file: `sudo vi /etc/apache2/sites-available/000-default.conf`
 
-* Entering the following configuration:
+* Entering the following configuration into this section `<VirtualHost *:80>  </VirtualHost>`:
 
 ```
 <Proxy "balancer://mycluster">
@@ -94,43 +97,68 @@ sudo a2enmod lbmethod_bytraffic
 
 ```
 
+![virtual](./img/9-loadfactor.PNG)
+
+
+
 * Restart the Apache server: `sudo systemctl restart apache2`
 
-![ec2](./img/2-LVM.PNG)
+![restart](./img/10-restart.PNG)
 
-* Verify that our configuration works – try to access your LB’s public IP address or Public DNS name from your browser:  `http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php`
-
-![ec2](./img/2-LVM.PNG)
+* 4  -  Verify that our configuration works – try to access your LB’s public IP address or Public DNS name from your browser:  `http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php`
 
 
-* Open two ssh/Putty consoles for both Web Servers and run following command o see how the load balancer works: `sudo tail -f /var/log/httpd/access_log`
-
-**Webserver A**
-![ec2](./img/2-LVM.PNG)
+* In order to test the configurations by inspecting the apache log files of the 2 webservers, the `/var/log/httpd` mount made on the webservers to the NFS server on project 7 was unmounted in order to make the web servers has its own log directory. $ sudo umount /var/log/httpd
 
 
-**Webserver B**
+  e.g. `http://54.174.120.138/index.php`
 
 ![ec2](./img/2-LVM.PNG)
+
+
+* Open two ssh/Putty consoles for both Web Servers and run following command o see how the load balancer works:
+ `sudo tail -f /var/log/httpd/access_log`
+
+ `sudo tail -f /var/log/httpd/access_log`
+
+
+
+**Webserver A Log**
+![accesslog](./img/13-accesslog.PNG)
+
+
+**Webserver B Log**
+
+![accesslog2](./img/14-accesslog2.PNG)
 
 
 
 * Entering the IP address of the load balancer on my web browser: http://100.24.24.6/index.php
 
+![login-page](./img/15-login-page.PNG)
+
+
 * **I tried to refresh my browser page http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php (172.180.0.1/index.php) several times and made sure that both servers receive HTTP GET requests from my LB** 
 
 * **New records appear in each server’s log file. The number of requests to each server was approximately the same since I set loadfactor to the same value for both servers – it means that traffic will be distributed evenly between them.**
 
-![ec2](./img/1-ec2.PNG)
+
+**Webserver A Request**
+![refresh](./img/16-refresh.PNG)
+
+
+**Webserver B Request**
+
+![refresh2](./img/17-refresh2.PNG)
+
+
+
 
 ## Optional Steps: Configure Local DNS Names Resolution
 
 * Sometimes it is tedious to remember and switch between IP addresses, especially if you have a lot of servers under your management.
 
 * Open this file on your LB server: `sudo vi /etc/hosts`
-
-
-![ec2](./img/2-LVM.PNG)
 
 
 * We added 2 records into this file with Local IP address and arbitrary name for both of our Web Servers
@@ -140,29 +168,36 @@ sudo a2enmod lbmethod_bytraffic
 <WebServer2-Private-IP-Address> Web2
 ```
 ```
-172.31.85.151 web1
-172.31.82.212 web2
+172.31.89.213 Web1
+172.31.88.212 Web2
 ```
 
-![ec2](./img/2-LVM.PNG)
+![web-config](./img/18-web.PNG)
 
 
 * Updating the load balancer config file with those names instead of IP address: `sudo vi /etc/apache2/sites-available/000-default.conf`
 	
   ```  
-    BalancerMember http://Web1:80 loadfactor=5 timeout=1
-	BalancerMember http://Web2:80 loadfactor=5 timeout=1
+
+      BalancerMember http://Web1:80 loadfactor=5 timeout=1
+	  BalancerMember http://Web2:80 loadfactor=5 timeout=1
+
   ```
 
-![ec2](./img/2-LVM.PNG)
+![balancer](./img/19-balancer.PNG)
 
-* Using curl to test the configuration on my load balancer locally: `curl http://web1/index.php`  or 
+* Using curl to test the configuration on my load balancer locally: 
 
-   `curl http://web1/index.php`
+   `curl http://web1/`  
+
+   ![curl](./img/20-curl.PNG)
+
+
+   `curl http://web2/`
 
 
 
-![ec2](./img/2-LVM.PNG)
+  ![curl2](./img/21-curl2.PNG)
 
 
 Hola! I just implemented a Load balancing Web Solution for my DevOps team.
