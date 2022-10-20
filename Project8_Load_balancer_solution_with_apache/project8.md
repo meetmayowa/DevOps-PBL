@@ -108,12 +108,7 @@ sudo a2enmod lbmethod_bytraffic
 * 4  -  Verify that our configuration works – try to access your LB’s public IP address or Public DNS name from your browser:  `http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php`
 
 
-* In order to test the configurations by inspecting the apache log files of the 2 webservers, the `/var/log/httpd` mount made on the webservers to the NFS server on project 7 was unmounted in order to make the web servers has its own log directory. $ sudo umount /var/log/httpd
-
-
-  e.g. `http://54.174.120.138/index.php`
-
-![ec2](./img/2-LVM.PNG)
+* In order to test the configurations by inspecting the apache log files of the 2 webservers, the `/var/log/httpd` mount made on the webservers to the NFS server on project 7 was unmounted in order to make the web servers has its own log directory. `sudo umount /var/log/httpd`
 
 
 * Open two ssh/Putty consoles for both Web Servers and run following command o see how the load balancer works:
