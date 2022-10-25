@@ -26,4 +26,7 @@ Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 
 
 
-[Project 10: LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project6-Implementing_lvs_and_wordpress_web_solution_project/project6.md)
+[Project 10: LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project10_Load_balancer_solution_with_NGINX_and_SSL_TLS/project10.md)
+
+
+[Project 11: ANSIBLE CONFIGURATION MANAGEMENT - AUTOMATION OF SEVERAL PROJECTS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project6-Implementing_lvs_and_wordpress_web_solution_project/project11.md)

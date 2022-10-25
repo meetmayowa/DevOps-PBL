@@ -77,8 +77,6 @@ The following outlines the steps I took in configuring an Ansible server and als
 
 * Inputting the ansible-config-mgt repository url and adding my credentials
 
-![webhook2](./img/8-webhook2.PNG)
-
 * To make sure that the build runs automatically whenever a change is made on the Git repository via the webhooks, I proceeded to click on "configure"
 
 * In configuration of my Jenkins freestyle project, I choose Git repository, provided there the link to my Tooling GitHub repository and credentials (user/password) so Jenkins could access files in the repository.
@@ -122,3 +120,12 @@ The following outlines the steps I took in configuring an Ansible server and als
 
 ![build](./img/17-build.PNG)
 
+## Step 2: Prepare my development environment using Visual Studio Code
+
+Working With Visual Studio Code Application
+A VS code application is setup that will help in better coding experience and debugging and for pushing and pulling codes easily from Github.
+
+* I connected to the ansible-config-mgt repository from VSCode application
+* Creating a new branch from the ansible-config-mgt repository called feature on the VS Code terminal that will be used for development of a new feature.
+
+![build](./img/17-build.PNG)
