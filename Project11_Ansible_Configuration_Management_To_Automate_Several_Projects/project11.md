@@ -15,7 +15,7 @@ This Project will make you appreciate DevOps tools even more by making most of t
 The following outlines the steps I took in configuring an Ansible server and also configuring a build task in Jenkins job that is linked to my Github repository to trigger whenever there is a change in the main branch by the use of webhooks, of which the artifacts from the build are used to automate tasks with Ansible playbook.
 
 
-![architecture](./img/1-archi.PNG)
+![architecture](./img/1-archi.png)
 
 
 
