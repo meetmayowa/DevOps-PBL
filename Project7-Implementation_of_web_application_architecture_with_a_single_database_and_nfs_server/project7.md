@@ -328,19 +328,32 @@ During the next steps we will do following:
 
 * WEBSERVER 1
 
-![ec2](./img/2-lvm.PNG)
+![ec2](./img/39-web1.PNG)
 
 * WEBSERVER 2
 
-![ec2](./img/2-lvm.PNG)
+![ec2](./img/40-web2.PNG)
 
 * WEBSERVER 3
 
-![ec2](./img/2-lvm.PNG)
+![ec2](./img/41-web3.PNG)
 
 2- Install NFS client: `sudo yum install nfs-utils nfs4-acl-tools -y`
 
-![ec2](./img/2-lvm.PNG)
+
+* WEBSERVER 1
+
+![ec2](./img/42-nfs1.PNG)
+
+
+* WEBSERVER 2
+
+![ec2](./img/43-nfs2.PNG)
+
+
+* WEBSERVER 3
+
+![ec2](./img/44-nfs3.PNG)
 
 3- Mount /var/www/ and target the NFS server’s export for apps:
 
@@ -349,6 +362,23 @@ sudo mkdir /var/www
 sudo mount -t nfs -o rw,nosuid <NFS-Server-Private-IP-Address>:/mnt/apps /var/www 
 
 ```
+
+* WEBSERVER 1
+
+![ec2](./img/45-df-h.PNG)
+
+
+* WEBSERVER 2
+
+![ec2](./img/46-df-h2.PNG)
+
+
+* WEBSERVER 3
+
+![ec2](./img/47-df-h3.PNG)
+
+
+
 
 4- Verify that NFS was mounted successfully by running `df -h`.
 * Make sure that the changes will persist on Web Server after reboot:
@@ -360,7 +390,7 @@ add following line
 
 e.g `172.31.84.225:/mnt/apps /var/www nfs defaults 0 0`
 
-![ec2](./img/2-lvm.PNG)
+![ec2](./img/48-mnt-app.PNG)
 
 5- Install Remi’s repository, Apache and PHP
 
@@ -384,6 +414,34 @@ sudo systemctl enable php-fpm
 setsebool -P httpd_execmem 1
 
 ```
+
+
+![ec2](./img/49-httpd.PNG)
+
+
+
+![ec2](./img/50-dnf.PNG)
+
+
+![ec2](./img/51-dnf-util.PNG)
+
+
+
+
+![ec2](./img/52-reset.PNG)
+
+
+![ec2](./img/53-module-enable.PNG)
+
+
+![ec2](./img/54-opcache.PNG)
+
+
+![ec2](./img/55-start.PNG)
+
+
+![ec2](./img/56-setsebool.PNG)
+
 
 **Repeat steps 1-5 for another 2 Web Servers.**
 
