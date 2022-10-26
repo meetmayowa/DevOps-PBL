@@ -14,6 +14,11 @@ This Project will make you appreciate DevOps tools even more by making most of t
 
 The following outlines the steps I took in configuring an Ansible server and also configuring a build task in Jenkins job that is linked to my Github repository to trigger whenever there is a change in the main branch by the use of webhooks, of which the artifacts from the build are used to automate tasks with Ansible playbook.
 
+
+![architecture](./img/1-architecture.PNG)
+
+
+
 ## STEP 1: Connecting To The Jenkins Server
 
 
@@ -45,7 +50,7 @@ The following outlines the steps I took in configuring an Ansible server and als
 
 * 4 - Configure Jenkins build job to save my repository content every time I change it.
 
-## Creating a Freestyle Job
+## STEP 2: Creating a Freestyle Job
 
 * i-  I created a new Freestyle project `ansible` in Jenkins and point it to your `ansible-config-mgt` repository.
 
@@ -120,7 +125,7 @@ The following outlines the steps I took in configuring an Ansible server and als
 
 ![build](./img/17-build.PNG)
 
-## Step 2: Prepare my development environment using Visual Studio Code
+## Step 3: Prepare my development environment using Visual Studio Code
 
 Working With Visual Studio Code Application
 A VS code application is setup that will help in better coding experience and debugging and for pushing and pulling codes easily from Github.
@@ -128,4 +133,154 @@ A VS code application is setup that will help in better coding experience and de
 * I connected to the ansible-config-mgt repository from VSCode application
 * Creating a new branch from the ansible-config-mgt repository called feature on the VS Code terminal that will be used for development of a new feature.
 
-![build](./img/17-build.PNG)
+![clone](./img/18-git-clone.PNG)
+
+
+`git Checkout -b feature`
+
+![feature](./img/19-feature.PNG)
+
+
+## STEP 4: Implementing SSH-Agent On Jenkins-Ansible Server
+
+* Inputting the following code:
+
+```
+[nfs]
+<NFS-Server-Private-IP-Address> ansible_ssh_user='ec2-user'
+
+[webservers]
+<Web-Server1-Private-IP-Address> ansible_ssh_user='ec2-user'
+<Web-Server2-Private-IP-Address> ansible_ssh_user='ec2-user'
+
+[db]
+<Database-Private-IP-Address> ansible_ssh_user='ec2-user' 
+
+[lb]
+<Load-Balancer-Private-IP-Address> ansible_ssh_user='ubuntu'
+
+```
+
+
+![dev](./img/31-dev.PNG)
+
+
+
+## STEP 5: Create a Common Playbook
+
+* In `common.yml` playbook I wrpte configuration for repeatable, re-usable, and multi-machine tasks that is common to systems within the infrastructure.
+
+* I Updated my playbooks/common.yml file with following code:
+
+```
+---
+- name: update web, nfs and db servers
+  hosts: webservers, nfs, db
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  tasks:
+    - name: ensure wireshark is at the latest version
+      yum:
+        name: wireshark
+        state: latest
+
+- name: update LB server
+  hosts: lb
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  tasks:
+    - name: Update apt repo
+      apt: 
+        update_cache: yes
+
+    - name: ensure wireshark is at the latest version
+      apt:
+        name: wireshark
+        state: latest
+
+```
+
+
+
+![dev](./img/31-dev.PNG)
+
+
+
+## Step 6: Update GIT with the latest code
+
+* Committing the code from the feature branch 
+`git status` and `git add` command
+
+![status](./img/34-git-status.PNG)
+
+* Git Commit: `git commit -m "Updating "`
+
+
+![commit](./img/35-git-commit.PNG)
+
+
+* Pushing the code which will create a push request `git push upstream`
+
+![push](./img/36-git-push.PNG)
+
+
+* Pull request created
+
+
+
+![pull](./img/38-pull-request.PNG)
+
+
+* Verify the push was success by checking out the codes
+
+
+![code](./img/39-code.PNG)
+
+
+
+* Merging the code to the main branch
+
+
+![merge](./img/37-confirm-merge.PNG)
+
+
+* On the Jenkins web console, ansible build is also triggered
+
+
+![build](./img/40-ansible-build.PNG)
+
+
+
+
+![console](./img/41-console.PNG)
+
+
+
+* Heading back to my VSCode terminal to checkout to the main branch: `git checkout main`
+
+
+![console](./img/44-git-checkout.PNG)
+
+
+* pulling down the changes: `git pull`
+
+
+![console](./img/45-git-pull.PNG)
+
+
+## STEP 7: Running Ansible Command
+
+
+* Executing the ansible-playbook command: `ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/<build-number>/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/<build-number>/archive/playbooks/common.yml`
+
+e.g Check the build number and replace it respectively
+
+
+`ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/4/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/4/archive/playbooks/common.yml`
+
+
+
+
+NOTE: Update my ansible playbook with some new Ansible tasks and went through the full checkout -> change codes -> commit -> PR -> merge -> build -> ansible-playbook cycle again to see how easily I can manage a servers fleet of any size with just one command!
