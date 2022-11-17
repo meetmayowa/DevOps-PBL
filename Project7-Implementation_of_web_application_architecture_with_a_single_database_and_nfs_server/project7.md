@@ -18,6 +18,8 @@ In this project, I implemented a DevOps tooling website solution which makes acc
 The following are the steps I took to set up this 3-tier 
 Web Application Architecture with a single database and an NFS server as a shared file storage:
 
+![project7](./img/Project-7.png)
+
 ## STEP 1: PREPARE NFS SERVER
 
 1 - Launching a four (4) EC2 instance(Red Hat Enterprise Linux 8 HVM) where one will serve as "NFS server” and while the  remaining will three (3) we be user for "Web-servers" which will be connected to the NFS server to make it stateless.
