@@ -536,7 +536,15 @@ For WEBSERVER 3
 
 
 
-* To make this change permanent – open following config file `sudo vi /etc/sysconfig/selinux` and set `SELINUX=disabled`then restrt httpd.
+* To make this change permanent – input this code
+`sudo setenforce 0`
+
+open following config file
+ `sudo vi /etc/sysconfig/selinux` and set `SELINUX=disabled`then restrt httpd.
+* Restart the Apache 
+ `sudo systemctl start httpd`
+* View the status of the Apache 
+ `sudo systemctl status httpd`
 
 ![selinux](./img/71-selinux.PNG)
 
@@ -544,19 +552,24 @@ For WEBSERVER 3
 
 `sudo vi /var/www/html/functions.php`
 
+
 * Update the mysqli_connect `$db = mysqli_connect('172.31.87.110', 'webaccess', 'PassWord.1', 'tooling');`
 
 
 ![db-connect](./img/73-db-connect.PNG)
 
 
-* 11 -  Apply tooling-db.sql script to your database using this command: `mysql -h <database-private-ip> -u <db-username> -p <db-pasword> < tooling-db.sql`
+* 11 -Install mysql into the webserver `sudo yum install mysql -y`
+
+* Change directory in tooling then apply tooling-db.sql script to your database using this command: `mysql -h <database-private-ip> -u <db-username> -p <db-name> < tooling-db.sql`
 
 
-e.g `mysql -h 172.31.87.110 -u webaccess -p PassWord.1 < tooling-db.sql`
+e.g `mysql -h 172.31.86.139 -u webaccess -p tooling < tooling-db.sql`
+
+* Password input will be prompted. Enter the Password
 
 
-![db-connect](./img/73-db-connect.PNG)
+![db-connect](./img/83-db.PNG)
 
 * 12 - I opened the website in my browser `http://<Web-Server-Public-IP-Address-or-Public-DNS-Name>/index.php` 
 
