@@ -278,9 +278,12 @@ A VS code application is setup that will help in better coding experience and de
 e.g Check the build number and replace it respectively
 
 
-`ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/4/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/4/archive/playbooks/common.yml`
+`ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/5/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/5/archive/playbooks/common.yml`
 
 
+![ssh](./img/47-ssh1.PNG)
+
+![ssh](./img/47-ssh.PNG)
 
 
 NOTE: Update my ansible playbook with some new Ansible tasks and went through the full checkout -> change codes -> commit -> PR -> merge -> build -> ansible-playbook cycle again to see how easily I can manage a servers fleet of any size with just one command!
