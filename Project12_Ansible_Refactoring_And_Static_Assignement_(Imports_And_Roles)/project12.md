@@ -8,48 +8,65 @@ The following outlines the steps taken:
 ## STEP 1: Enhancing The Jenkins Job
 
 * Since artifacts stored in Jenkins server changes directory at each build. Inorder to keep tabs on recent artifacts, copy-artifacts plugin is implemented to copy recent artifacts from a build and paste it automatically to a specified directory where ansible playbook can be run with ease.
-* Creating a new directory on the Jenkins-ansible server where the artifacts will be copied to: `sudo mkdir /home/ubuntu/ansible-config-artifact`
-* Changing the permissions: `chmod -R 0777 /home/ubuntu/ansible-config-artifact`
 
-![ec2](./img/1-ec2.png)
+* 1-  Creating a new directory on the Jenkins-ansible server where the artifacts will be copied to: `sudo mkdir /home/ubuntu/ansible-config-artifact`
+* 2- Changing the permissions: `chmod -R 0777 /home/ubuntu/ansible-config-artifact`
 
-
-* From the Jenkins web console, onto the manage plugin, then on the available tab, searching for copy-artifact plugin and installing the plugin
-
-![ec2](./img/1-ec2.png)
-
-* Creating a new freestyle job ‘save-artifact’ and configuring it to be triggered on the completion of the existing ‘ansible’ job:
+![artifact](./img/1-artifact.PNG)
 
 
-![ec2](./img/1-ec2.png)
+* 3-  From the Jenkins web console, onto the manage plugin, then on the available tab, searching for copy-artifact plugin and installing the plugin. 
+
+Go to Jenkins web console -> Manage Jenkins -> Manage Plugins -> on Available tab search for Copy Artifact and install this plugin without restarting Jenkins
+
+![plugins](./img/2-plugins.PNG)
+
+* 4- Creating a new freestyle job ‘save-artifact’ and configuring it to be triggered on the completion of the existing ‘ansible’ job:
 
 
-* On the general tab
+![save-artifact](./img/3-save-artifact.PNG)
 
-![ec2](./img/1-ec2.png)
+
+* 5- On the general tab
+
+![build](./img/4-build.PNG)
 
 * On the build trigger tab
 
-![ec2](./img/1-ec2.png)
+![trigger](./img/5-trigger.PNG)
 
 * On the build tab
 
-![ec2](./img/1-ec2.png)
+![steps](./img/6-steps.PNG)
+
+
+
+* Checking the repo to be sure that it was updated after the git push
+
+![repo](./img/7-repo.PNG)
 
 * Testing the configuration by making a change in the README.md file: Ansible build triggered with save_artifacts
 
-![ec2](./img/1-ec2.png)
+![console](./img/8-console.PNG)
 
+
+![history](./img/9-build-history.PNG)
 
 * Artifacts successfully saved on the /home/ubuntu/ansible-config-artifact
+
+![ansible](./img/10-ansible.PNG)
 
 
 ## STEP 2: Refactoring Ansible Code
 
+
+Before starting to refactor the codes, I ensured that I have pulled down the latest code from master (main) branch, and created a new branch, name it refactor.
+
 * Pulling the latest changes from the main branch: `git pull` 
+
 * Checkout to new branch ‘refactor’: `git checkout -b refactor`
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
 * Creating site.yml file in the playbooks folder. The file will be considered as an entry point into the entire infrastructure, ie, site.yml will be the parent to all other playbook
@@ -60,41 +77,43 @@ The following outlines the steps taken:
 
 * Configuring the site.yml file to import common.yml file
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
 The ansible-config-mgt folder structure
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
 * Since the wireshark has been installed on the webservers, so common-del.yml is used instead of common.yml to uninstall wireshark
 common-del.yml playbook file
 
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
-![ec2](./img/1-ec2.png)
-
+![repo](./img/7-repo.PNG)
 
 * Updating site.yml playbook file
 
 
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
+
+`git push --set-upstream origin refactor`
 
 
-![ec2](./img/1-ec2.png)
+![repo](./img/7-repo.PNG)
 
 
-* Running the ansible-playbook command against dev.yml inventory file: $ sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml
+* Running the ansible-playbook command against dev.yml inventory file: `sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml`
+
+![repo](./img/7-repo.PNG)
 
 
-![ec2](./img/1-ec2.png)
 
 
 ## STEP 3: Making Use Of Role Functionalities
