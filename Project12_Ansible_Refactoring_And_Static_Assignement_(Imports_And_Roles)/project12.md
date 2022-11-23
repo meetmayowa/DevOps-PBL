@@ -3,6 +3,9 @@
 ## INTRODUCTION
 In continuation of [Project 11](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project11_Ansible_Configuration_Management_To_Automate_Several_Projects/project11.md), the ansible code in my ansible-config-mgt repository is refactored into making use of the import functionality– which allows us to effectively re-use previously created playbooks in a new playbook, and assigning task in the playbook with role functionality.
 
+![project12](./img/project12.PNG)
+
+
 The following outlines the steps taken:
 
 ## STEP 1: Enhancing The Jenkins Job
@@ -66,7 +69,7 @@ Before starting to refactor the codes, I ensured that I have pulled down the lat
 
 * Checkout to new branch ‘refactor’: `git checkout -b refactor`
 
-![repo](./img/7-repo.PNG)
+![refactor](./img/11-refactor.PNG)
 
 
 * Creating site.yml file in the playbooks folder. The file will be considered as an entry point into the entire infrastructure, ie, site.yml will be the parent to all other playbook
@@ -77,41 +80,47 @@ Before starting to refactor the codes, I ensured that I have pulled down the lat
 
 * Configuring the site.yml file to import common.yml file
 
-![repo](./img/7-repo.PNG)
+![common](./img/12-common.PNG)
 
-
-![repo](./img/7-repo.PNG)
 
 
 The ansible-config-mgt folder structure
 
-![repo](./img/7-repo.PNG)
+![structure](./img/13-structure.PNG)
 
 
 * Since the wireshark has been installed on the webservers, so common-del.yml is used instead of common.yml to uninstall wireshark
 common-del.yml playbook file
 
+![common-del](./img/14-common-del.PNG)
 
-![repo](./img/7-repo.PNG)
+![site](./img/15-site.PNG)
 
 
-![repo](./img/7-repo.PNG)
+![config](./img/16-config.PNG)
 
 * Updating site.yml playbook file
 
 
 
-![repo](./img/7-repo.PNG)
+![inventory](./img/17-config-inventory.PNG)
 
 `git push --set-upstream origin refactor`
 
 
-![repo](./img/7-repo.PNG)
+![ansible](./img/18-ansible-dir.PNG)
 
 
-* Running the ansible-playbook command against dev.yml inventory file: `sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml`
+* Change Directory (cd) into the report Repo `ansible-config-artifact` and run this command: `ansible-playbook -i inventory/<your inventory file> playbooks/<playbook file>`
 
-![repo](./img/7-repo.PNG)
+i.e `ansible-playbook -i inventory/dev.yml playbooks/site.yml`
+
+Running the ansible-playbook command against dev.yml inventory file:
+
+![repo](./img/19-repo.PNG)
+
+
+![repo2](./img/20-repo2.PNG)
 
 
 
@@ -119,6 +128,9 @@ common-del.yml playbook file
 ## STEP 3: Making Use Of Role Functionalities
 
 * To demonstrate the role functions, 2 new Red Hat servers are launched and are used as UAT(User Acceptance Testing).
+
+![ec2](./img/21-ec2.PNG)
+
 * Configuring the uat.yml in the inventory folder with the ip address of the 2 new servers launched
 
 ```
@@ -128,26 +140,22 @@ common-del.yml playbook file
 
 ```
 
-
-![ec2](./img/1-ec2.png)
+![ec2](./img/23-private-key.PNG)
 
 
 * To create a role for the UAT webservers, the folder ‘role’ is created in the playbooks directory
-* Creating a dummy role structure ‘webserver’ with ansible-galaxy command: $ sudo ansible-galaxy init webserver
-
-![ec2](./img/1-ec2.png)
+* Creating a dummy role structure ‘webserver’ with ansible-galaxy command: `sudo ansible-galaxy init webserver`
 
 * Webserver role folder structure
 
-![ec2](./img/1-ec2.png)
+![webserver](./img/22-webserver.PNG)
 
 
 * In order to make ansible locate the role directory, editing the role section and specifying the role path in the ansible.cfg file: `sudo vi /etc/ansible/ansible.cfg`
 
-![ec2](./img/1-ec2.png)
+![ec2](./img/21-ec2.PNG)
 
 * Configuring the task file of the webserver role and adding the following task in the main.yml: `sudo vi ansible-config-artifact/playbooks/role/webserver/task/main.yml`
-
 
 ```
 ---
@@ -166,7 +174,7 @@ common-del.yml playbook file
 - name: clone a repo
   become: true
   ansible.builtin.git:
-    repo: https://github.com/somex6/tooling.git
+    repo: https://github.com/meetmayowa/tooling.git
     dest: /var/www/html
     force: yes
 
@@ -188,13 +196,13 @@ common-del.yml playbook file
 
 ```
 
-![ec2](./img/1-ec2.png)
+![task](./img/26-task.PNG)
 
 The task file does the following:
 
 1- Install and configure Apache (httpd service)
 
-2- Clone Tooling website from GitHub https://github.com/somex6/tooling.git.
+2- Clone Tooling website from GitHub https://github.com/meetmayowa/tooling.git.
 
 3-Ensuring the tooling website code is deployed to /var/www/html on each of UAT Web servers.
 
@@ -213,8 +221,7 @@ The task file does the following:
      - webserver
 
 ```
-
-![ec2](./img/1-ec2.png)
+![ec2](./img/26-uat-webservers.PNG)
 
 * Updating the site.yml file to be able to import uat-webservers role
 
@@ -223,7 +230,7 @@ The task file does the following:
 - import_playbook: ../static-assignments/uat-webservers.yml
 
 ```
-![ec2](./img/1-ec2.png)
+![site](./img/27-site.PNG)
 
 
 ## STEP 4: Commit And Running the playbook
@@ -231,24 +238,36 @@ The task file does the following:
 
 * Commiting the changes and pushing the code to the main branch to create a merge request
 
-![ec2](./img/1-ec2.png)
+![commit](./img/28-commit.PNG)
 
 * Merging the request
 
 **Pull request created**
 
-![ec2](./img/1-ec2.png)
+![pull](./img/29-pull.PNG)
 
 
-**Pull request created**
+**Merged created**
 
-![ec2](./img/1-ec2.png)
+![ec2](./img/32-merged.PNG)
 
 **Ensuring that Jenkins build is triggered**
 
-![ec2](./img/1-ec2.png)
+![jenkins](./img/37-jenkins.PNG)
 
 
-* Running the ansible playbook: sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/uat.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml
+* Running the ansible playbook: `sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/uat.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml`  or
 
-![ec2](./img/1-ec2.png)
+* Cd Directory into the repo and then run this command   `ansible-playbook -i inventory/uat.yml playbooks/site.yml`
+
+
+![ansible-config](./img/35-ansible-config.PNG)
+
+
+
+
+![ansible-config](./img/36-ansible-config2.PNG)
+
+
+**The end of the project**
+
