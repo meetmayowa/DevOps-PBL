@@ -3,7 +3,7 @@
 ## INTRODUCTION
 In continuation of [Project 11](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project11_Ansible_Configuration_Management_To_Automate_Several_Projects/project11.md), the ansible code in my ansible-config-mgt repository is refactored into making use of the import functionality– which allows us to effectively re-use previously created playbooks in a new playbook, and assigning task in the playbook with role functionality.
 
-![project12](./img/project12.PNG)
+![project12](./img/project12.png)
 
 
 The following outlines the steps taken:
