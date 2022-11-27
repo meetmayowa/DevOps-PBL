@@ -163,7 +163,7 @@ The folder structure of Apache role:
 
 ![plugins](./img/13-nginx-main.PNG)
 
-* Declaring the following variable in the 'defaults/main.py' file of both apache and nginx roles file which makes ansible to skip the roles during execution.
+* Declaring the following variable in the 'defaults/main.yml' file of both apache and nginx roles file which makes ansible to skip the roles during execution.
 
 
 **For apache/defaults/main.yml**
@@ -176,7 +176,7 @@ load_balancer_is_required: false
 ```
 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/14-apache-main.PNG)
 
 
 **For nginx/defaults/main.yml**
@@ -189,7 +189,7 @@ load_balancer_is_required: false
 ```
 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/15-nginx-main.PNG)
 
 * Creating a file in the static-assignment folder and naming it ‘loadbalancers.yml’ and entering the following codes:
 
@@ -201,7 +201,7 @@ load_balancer_is_required: false
 
 ```
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/16-loadbalancer.PNG)
 
 * Updating the site.yml file:
 
@@ -214,7 +214,7 @@ load_balancer_is_required: false
 
 ```
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/17-site.PNG)
 
 * To define which load balancer to use, the files in the env-var folder is used to override the default settings of any of the load balancer roles. In this case the env-var/dev.yml file is used to make ansible to only run nginx load balancer task in the target server:
 
@@ -225,8 +225,14 @@ enable_nginx_lb: true
 load_balancer_is_required: true
 
 ```
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/18-env.PNG)
 
-* Running the playbook: `sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml`
+* Running the playbook: `sudo ansible-playbook -i /home/ubuntu/ansible-config-mgt2/inventory/dev.yml /home/ubuntu/ansible-config-mgt2/playbooks/site.yml`
+
+* Change Directory (cd) into the report Repo ansible-config-artifact and run this command: `ansible-playbook -i inventory/<your inventory file> playbooks/<playbook file>`
+i.e `ansible-playbook -i inventory/dev.yml playbooks/site.yml`
+
+Running the ansible-playbook command against dev.yml inventory file:
+
 
 ![plugins](./img/2-plugins.PNG)
