@@ -10,21 +10,21 @@ The following steps outlines how include module is used for running dynamic envi
 
 * Checking out to a new branch in the same ansible-config-mgt repository and naming it ‘dynamic-assignments’
 
-![plugins](./img/2-plugins.PNG)
+![checkout](./img/1-checkout.PNG)
 
 * Creating a new folder in the root directory of the repository and naming it ‘dynamic-assignments’
 
-![plugins](./img/2-plugins.PNG)
+![mkdir](./img/2-mkdir.PNG)
 
 * Creating an environment variable file in the dynamic-assignments directory and naming it ‘env_vars.yml’
 
-![plugins](./img/2-plugins.PNG)
+![notepad](./img/3-notepad.PNG)
 
 * Creating a folder that holds the environmental variable and naming it ‘env-var’
 * Creating the following files under it: dev.yml, uat.yml, prod.yml and stage.yml
 * The structure of the ansible-config-mgt folder will be as displayed below:
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/4-env.PNG)
 
 * Entering the following codes in the env_vars.yml file:
 
@@ -48,11 +48,11 @@ The following steps outlines how include module is used for running dynamic envi
 
 ```
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/4-env-var.PNG)
 
 * Updating site.yml file to work with dynamic-assignments:
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/5-sites.PNG)
 
 ## STEP 2: Implementing Community Roles
 
@@ -62,49 +62,50 @@ In order to preserve my github state whenever I install a new role in the ansibl
 * Initializing the ansible-artifact-config directory: `git init`
 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/8-git.PNG)
 
-* Pulling the ansible-config-mgt repository: `git pull https://github.com/somex6/ansible-config-mgt.git`
+* Pulling the ansible-config-mgt repository: `git pull https://github.com/meetmayowa/ansible-config-mgt.git`
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/11-pull.PNG)
 
 
 * Registering the repo: `git remote add origin https://github.com/meetmayowa/ansible-config-mgt.git`
+
 * Creating a new branch 'roles-feature': `git branch roles-feature`
+
 * Switching to the new branch: `git switch roles-feature`
 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/5.PNG)
 
 * Making use of community roles by installing a MySQL role already configured from ansible-galaxy by geerlingguy in the role directory: $ ansible-galaxy install geerlingguy.mysql
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/7-nginx.PNG)
 
 * Renaming the role folder to mysql: `mv geerlingguy.mysql/ mysql`
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/7-rename.PNG)
 
-* Updating the ansible-config-mgt repository
+**Updating the ansible-config-mgt2 repository**
 
-**git add .**
+* git add .
 
-![plugins](./img/2-plugins.PNG)
 
-**git commit -m "Commit new role files into GitHub"**
+* git commit -m "Commit new role files into GitHub"
 
-![plugins](./img/2-plugins.PNG)
 
-**git push --set-upstream origin roles-feature**
+* git push --set-upstream origin roles-feature 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/8-commit.PNG)
+
 
 * Creating a pull request
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/9-merge1.PNG)
 
 * Merging the request
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/10-merge2.PNG)
 
 ## STEP 3: Implementing Load Balancer(Apache & Nginx) Roles
 Two load balancer roles are setup which are Nginx and Apache roles, but because a web server can only make use of one load balancer, the playbook is configured with the use of conditionals- when statement, to ensure that only the desired load balancer role tasks gets to run on the webserver
@@ -112,17 +113,17 @@ Two load balancer roles are setup which are Nginx and Apache roles, but because 
 * Setting up apache role in the role directory: `sudo ansible-galaxy init apache`
 The folder structure of Apache role:
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/7-nginx.PNG)
 
 * Setting up nginx role in the role directory: `sudo ansible-galaxy init nginx`
 
 
 **The folder structure of Nginx role:**
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/7-rename.PNG)
 
 
-* Entering the following code task in apache/tasks/main.py file:
+* Entering the following code task in apache/tasks/main.yml file:
 
 ```
 ---
@@ -140,9 +141,9 @@ The folder structure of Apache role:
 
 ```
 
-![plugins](./img/2-plugins.PNG)
+![main](./img/12-main.PNG)
 
-* Entering the following code in nginx/tasks/main.py file:
+* Entering the following code in nginx/tasks/main.yml file:
 
 ```
 - name: install ngnix
@@ -160,7 +161,7 @@ The folder structure of Apache role:
 ```
 
 
-![plugins](./img/2-plugins.PNG)
+![plugins](./img/13-nginx-main.PNG)
 
 * Declaring the following variable in the 'defaults/main.py' file of both apache and nginx roles file which makes ansible to skip the roles during execution.
 
