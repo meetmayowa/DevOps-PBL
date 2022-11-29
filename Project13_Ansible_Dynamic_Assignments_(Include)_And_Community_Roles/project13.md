@@ -111,9 +111,12 @@ In order to preserve my github state whenever I install a new role in the ansibl
 Two load balancer roles are setup which are Nginx and Apache roles, but because a web server can only make use of one load balancer, the playbook is configured with the use of conditionals- when statement, to ensure that only the desired load balancer role tasks gets to run on the webserver
 
 * Setting up apache role in the role directory: `sudo ansible-galaxy init apache`
+
 The folder structure of Apache role:
 
 ![plugins](./img/7-nginx.PNG)
+
+![plugins](./img/20-tree-apache.PNG)
 
 * Setting up nginx role in the role directory: `sudo ansible-galaxy init nginx`
 
@@ -121,6 +124,8 @@ The folder structure of Apache role:
 **The folder structure of Nginx role:**
 
 ![plugins](./img/7-rename.PNG)
+
+![plugins](./img/21-tree-nginx.PNG)
 
 
 * Entering the following code task in apache/tasks/main.yml file:
