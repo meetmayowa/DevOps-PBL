@@ -250,10 +250,12 @@ load_balancer_is_required: true
 
 * Running the playbook: `sudo ansible-playbook -i /home/ubuntu/ansible-config-mgt2/inventory/dev.yml /home/ubuntu/ansible-config-mgt2/playbooks/site.yml`
 
-* Change Directory (cd) into the report Repo ansible-config-artifact and run this command: `ansible-playbook -i inventory/<your inventory file> playbooks/<playbook file>`
-i.e `ansible-playbook -i inventory/dev.yml playbooks/site.yml`
+* Change Directory (cd) into the report Repo ansible-config-mgt2 and run this command: `ansible-playbook -i inventory/<your inventory file> playbooks/<playbook file>`
+
+ Or 
+i.e `sudo ansible-playbook -i /home/ubuntu/ansible-config-mgt-3/inventory/dev.yml /home/ubuntu/ansible-config-mgt-3/playbooks/site.yml`
 
 Running the ansible-playbook command against dev.yml inventory file:
 
 
-![plugins](./img/2-plugins.PNG)
+![final](./img/22-final.PNG)
