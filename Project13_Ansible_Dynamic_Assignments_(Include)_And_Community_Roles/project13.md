@@ -52,6 +52,22 @@ The following steps outlines how include module is used for running dynamic envi
 
 * Updating site.yml file to work with dynamic-assignments:
 
+```
+---
+- hosts: all
+- name: Include dynamic variables 
+  tasks:
+  import_playbook: ../static-assignments/common.yml 
+  include: ../dynamic-assignments/env-vars.yml
+  tags:
+    - always
+
+-  hosts: webservers
+- name: Webserver assignment
+  import_playbook: ../static-assignments/webservers.yml
+
+```
+
 ![plugins](./img/5-sites.PNG)
 
 ## STEP 2: Implementing Community Roles
