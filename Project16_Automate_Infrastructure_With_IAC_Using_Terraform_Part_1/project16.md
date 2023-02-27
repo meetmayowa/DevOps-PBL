@@ -9,18 +9,7 @@ The following outlines the steps taken:
 ## STEP 0: Setting Up AWS CLI And S3 Buckets
 After creating an IAM user with AdministrativeAccess permissions in AWS and acquiring the access key and secret access key, the following step was taken:
 
-Creating S3 bucket in AWS for storing Terraform state file and naming it somex-terraform-bucket.
-
-![ec2](./img/1-ec2.PNG)
-
-## STEP 1: Configuring Ansible For Jenkins Deployment
-
-In order to run ansible commands from Jenkins UI, the following outlines the steps taken:
-
-* Installing Blue Ocean plugin from ‘manage plugins’ on Jenkins:
-* Creating new pipeline job on the Blue Ocean UI from Github
-* Generating new personal access token in order to full access to the repository
-* Pasting the token and selecting ansible-config-mgt repository to create a new pipeline job
+Creating S3 bucket in AWS for storing Terraform state file and naming it mayowa-dev-terraform-bucket.
 
 ![s3](./img/1-s3.PNG)
 ![bucket](./img/2-bucket.PNG)
