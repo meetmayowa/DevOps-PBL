@@ -259,3 +259,5 @@ Running the ansible-playbook command against dev.yml inventory file:
 
 
 ![final](./img/22-final.PNG)
+
+Done!
