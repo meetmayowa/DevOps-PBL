@@ -287,3 +287,5 @@ e.g Check the build number and replace it respectively
 
 
 NOTE: Update my ansible playbook with some new Ansible tasks and went through the full checkout -> change codes -> commit -> PR -> merge -> build -> ansible-playbook cycle again to see how easily I can manage a servers fleet of any size with just one command!
+
+Done!
