@@ -269,3 +269,5 @@ Confirming whether the artifacts are suucessfully sent to NFS server in the /mnt
 * I saw the changes I had previously made in my GitHub – the job works as expected.
 
 * This shows that the Jenkins server is connected successfully to the NFS server
+
+Done!
