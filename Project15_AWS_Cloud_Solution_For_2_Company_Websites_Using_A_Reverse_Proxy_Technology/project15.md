@@ -359,3 +359,6 @@ Entering the url https://www.imayorstudios.com.ng will route traffic from the ap
 
 
 ![cert](./img/85-cert.PNG)
+
+
+Done!
