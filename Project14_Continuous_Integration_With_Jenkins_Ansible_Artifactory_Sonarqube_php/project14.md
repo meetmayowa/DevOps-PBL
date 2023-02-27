@@ -22,3 +22,6 @@ In order to run ansible commands from Jenkins UI, the following outlines the ste
 
 
 * Checkout the feature `git checkout -b feature/jenkinspipeline-stage`
+
+
+Documentation ongoing 
