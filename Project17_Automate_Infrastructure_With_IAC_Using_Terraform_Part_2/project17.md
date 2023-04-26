@@ -1239,4 +1239,6 @@ resource "aws_db_instance" "ACS-rds" {
 
 ## STEP 12: Executing Terraform Apply
 
-![ec2](./img/1-plan.PNG)
+![ec2](./img/0-plan.PNG)
+
+Thank you! 
