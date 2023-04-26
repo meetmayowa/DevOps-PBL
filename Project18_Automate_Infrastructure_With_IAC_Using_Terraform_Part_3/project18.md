@@ -53,15 +53,11 @@ resource "aws_dynamodb_table" "terraform_locks" {
 
 * Since Terraform expects that both S3 bucket and DynamoDB resources are already created before configuring the backend, executing terraform apply command:
 
-![init](./img/2-terraform-init.PNG)
+![terraform-init](./img/2-terraform-init.PNG)
 
-![init](./img/2-terraform-init.PNG)
+![dynamodb](./img/8-dynamodb.PNG)
 
-![init](./img/2-terraform-init.PNG)
-
-![init](./img/2-terraform-init.PNG)
-
-![init](./img/2-terraform-init.PNG)
+![tfstate](./img/9-terraform.tfstate.PNG)
 
 
 * Entering the following code to configure the backend:
@@ -92,34 +88,44 @@ pbl folder structure
 * Refactoring the code for VPC folder:
 `outputs.tf`
 
-![init](./img/2-terraform-init.PNG)
+![init](./img/11-vpc-output.PNG)
 
 * Refactoring the code for ALB folder:
 `variables.tf`
 
-![init](./img/2-terraform-init.PNG)
+![alb-var](./img/12-alb-variable.PNG)
 
 `outputs.tf`
 
-![init](./img/2-terraform-init.PNG)
+![alb-out](./img/12-alb-outputs.PNG)
 
 * Refactoring the code for Autoscaling folder:
 `variables.tf`
 
+![autoscaling](./img/13-autoscaling-variable.PNG.PNG)
+
 * Refactoring the code for security folder:
 `outputs.tf`
+
+![security](./img/14-security-output.PNG)
 
 * Refactoring the code for EFS folder:
 `variables.tf`
 
+![efs-var](./img/15-efs-variable.PNG)
+
 * Refactoring the code for RDS folder:
 `variables.tf`
 
+![rds-var](./img/16-rds-variables.PNG)
+
 * Refactoring the code the root `main.tf` folder:
 
-
-* The complete code structure is stored in this repo
-
+![main1](./img/17-main1.PNG)
+![main2](./img/18-main2.PNG)
+![main3](./img/19-main3.PNG)
+![main4](./img/20-main4.PNG)
+![main5](./img/21-main5.PNG)
 
 ## STEP 3: Executing The Terraform Plan
 
@@ -129,3 +135,15 @@ pbl folder structure
 
 
 * Testing the configuration by running the command `terraform apply --auto-approve`
+
+![plan](./img/22-plan1.PNG)
+
+![plan2](./img/23-plan2.PNG)
+
+![plan3](./img/24-plan3.PNG)
+
+![plan4](./img/25-plan4.PNG)
+
+![plan5](./img/26-plan5.PNG)
+
+![plan6](./img/27-plan6.PNG)
