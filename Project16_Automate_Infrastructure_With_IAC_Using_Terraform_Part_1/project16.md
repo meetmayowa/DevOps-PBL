@@ -56,16 +56,44 @@ resource "aws_vpc" "main" {
 }
 ```
 * Running the following command which downloads the necessary plugins for Terraform to work: `terraform init`
-![python](./img/5-python.PNG)
+![terraform](./img/6-terraform.PNG)
 
 * Inorder to check to see what terraform intends to create before we tell it to go ahead and create the aws_vpc resource the following command is run: `terraform plan`
 
-![python](./img/5-python.PNG)
+![plan](./img/7-plan.PNG)
 
 
+![apply](./img/8-apply.PNG)
 
+* A new file terraform.tfstate is created as a result of the above command which Terraform uses to keeps itself up to date with the exact state of the infrastructure and terraform.tfstate.lock.info file which Terraform uses to track who is running its code against the infrastructure at any point in time
+### PBL folder structure
 
+![structure](./img/9-structure.PNG)
 
+### STEP 2: Creating Subnet Resources
+
+* According to the architectural design 6 subnets is required: 2 public 2 private for webservers 2 private for data layer
+* Creating the 2 public subnets by entering the following codes:
+
+```
+# Create public subnets1
+    resource "aws_subnet" "public1" {
+    vpc_id                     = aws_vpc.main.id
+    cidr_block                 = "172.16.0.0/24"
+    map_public_ip_on_launch    = true
+    availability_zone          = "us-west-1a"
+
+}
+
+# Create public subnet2
+    resource "aws_subnet" "public2" {
+    vpc_id                     = aws_vpc.main.id
+    cidr_block                 = "172.16.1.0/24"
+    map_public_ip_on_launch    = true
+    availability_zone          = "us-west-1c"
+}
+
+```
 
 ### STEP 3: Refactoring The Codes
 1- Inorder to make the work dynamic, hard coded values are removed by introducing variables
@@ -73,7 +101,7 @@ resource "aws_vpc" "main" {
 
 ```
     variable "region" {
-        default = "eu-central-1"
+        default = "us-west-1"
     }
 
     provider "aws" {
@@ -186,3 +214,45 @@ resource "aws_subnet" "public" {
 }
 
 ```
+
+### STEP 4: Introducing Variables.tf And terraform.tfvars
+* To make the code a lot more readable and better structured instead of having a long list of variables in main.tf file, the variable declarations is moved to a separate file and a file for non-default values for each of the variables is created.
+* Creating a new file and naming it variables.tf
+* Moving all the variable declarations into the new file.
+* Creating another file and naming it terraform.tfvars
+* Setting values for each of the variables:
+
+```
+region = "us-west-1"
+
+vpc_cidr = "172.16.0.0/16" 
+
+enable_dns_support = "true" 
+
+enable_dns_hostnames = "true"  
+
+enable_classiclink = "false" 
+
+enable_classiclink_dns_support = "false" 
+
+preferred_number_of_public_subnets = 2
+
+```
+
+### STEP 5: Executing Terraform Apply
+
+
+![plan](./img/16-plan-final.PNG)
+
+![apply](./img/17-apply.PNG)
+
+![apply](./img/17-apply2.PNG)
+
+![apply](./img/18-apply2.PNG)
+
+
+* Destroy all resources after use to avoid extra charges from AWS
+
+![destroy](./img/14-destroy.PNG)
+
+![destroyed](./img/15-destroyed.PNG)
