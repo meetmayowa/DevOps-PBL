@@ -82,3 +82,9 @@ For Jenkins, Artifactory and sonarqube Server
 ![plan](./img/24-plan.PNG)
 
 ![plan2](./img/25-plan2.PNG)
+
+### STEP 4: Configuring The Infrastructure With Ansible
+
+* After a successful execution of terraform apply, connecting to the bastion server through ssh-agent to run ansible against the infrastructure
+
+![ssh-bastion](./img/27-ssh-bastion.PNG)
