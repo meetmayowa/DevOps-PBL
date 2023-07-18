@@ -318,5 +318,4 @@ spec:
 ![stooling-service](./img/21-tooling-service.PNG) 
 
 
-![website](./img/22-website.PNG) 
-
+![website](./img/22-website.png) 
