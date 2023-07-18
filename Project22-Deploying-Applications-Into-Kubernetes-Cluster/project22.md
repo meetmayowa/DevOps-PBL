@@ -319,3 +319,14 @@ spec:
 
 
 ![website](./img/22-website.png) 
+
+
+### STEP 6: Using AWS Load Balancer To Access The Nginx Application
+
+* Another type of service used in Kubernetes is the loadbalancer which does not only create a Service object but also provisions a real external Load Balancer - Elastic Load Balancer. But this setup only worked because the cluster was setup in EKS.
+
+* Editing the nginx-service.yaml file and adding loadbalancer in the appropriate section and applying it:`$ kubectl apply -f nginx-service.yaml`
+
+* Inspecting the setup:`$ kubectl get service nginx-service -o yaml`
+
+![load-balancer](./img/23-loadbalancer.PNG)
