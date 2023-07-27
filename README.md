@@ -34,4 +34,23 @@ Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 
 [Project 13: INTRODUCING ANSIBLE DYNAMIC ASSIGNMENTS(INCLUDE) AND COMMUNITY ROLES](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project13_Ansible_Dynamic_Assignments_(Include)_And_Community_Roles/project13.md)
 
-[Project 14: CONTINUOUS INTEGRATION WITH JENKINS | ANSIBLE | ARTIFACTORY | SONARQUBE | PHP](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project6-Implementing_lvs_and_wordpress_web_solution_project/project11.md)
+[Project 14: CONTINUOUS INTEGRATION WITH JENKINS | ANSIBLE | ARTIFACTORY | SONARQUBE | PHP](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project14_Continuous_Integration_With_Jenkins_Ansible_Artifactory_Sonarqube_php/project14.md)
+
+[Project 15: AWS CLOUD SOLUTION FOR 2 COMPANY WEBSITES USING A REVERSE PROXY TECHNOLOGY](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project15_AWS_Cloud_Solution_For_2_Company_Websites_Using_A_Reverse_Proxy_Technology/project15.md)
+
+
+[Project 16: AUTOMATING INFRASTRUCTURE WITH IAC USING TERRAFORM PART 1](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project16_Automate_Infrastructure_With_IAC_Using_Terraform_Part_1/project16.md)
+
+[Project 17: AUTOMATING INFRASTRUCTURE WITH IAC USING TERRAFORM PART 2](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project17_Automate_Infrastructure_With_IAC_Using_Terraform_Part_2/project17.md)
+
+[Project 18: AUTOMATING INFRASTRUCTURE WITH IAC USING TERRAFORM PART 3](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project18_Automate_Infrastructure_With_IAC_Using_Terraform_Part_3/project18.md)
+
+[Project 19: AUTOMATING INFRASTRUCTURE WITH IAC USING TERRAFORM PART 4 - TERRAFORM CLOUD](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project19_Automate_Infrastructure_With_IAC_Using_Terraform_Part_4/project19.md)
+
+[Project 20: MIGRATION TO THE CLOUD WITH CONTAINERIZATION - DOCKER](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project20_Migration_To_The_Cloud_With_Containerization_Part1-Docker_And_Docker_Composer/project20.md)
+
+[Project 21: SETTING_UP_A_KUBERNETES_CLUSTER_FROM_GROUND_UP-THE-HARD-WAY](https://github.com/meetmayowa/DevOps-PBL/)
+
+[Project 22: DEPLOYING APPLICATIONS INTO KUBERNETES CLUSTER](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project22-Deploying-Applications-Into-Kubernetes-Cluster/project22.md)
+
+[Project 23: PERSISTING DATA IN KUBERNETES](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project23-Persisting-Data-In-Kubernetes/project23.md)
