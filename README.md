@@ -2,9 +2,9 @@
 This repository contains most of the real-life projects I carried out during my DevOps career journey
 
 ## Table Of Contents
-Project 1: SETTING UP A LAMP STACK WEB SERVER IN THE AWS CLOUD
+[Project 1: SETTING UP A LAMP STACK WEB SERVER IN THE AWS CLOUD](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project1_Setting_up_a_LAMP_stack_web_server_in_the_aws_cloud/project1.md)
 
-Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
+[Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD]()
 
 [Project 3: SETTING UP A MERN STACK AND DEPLOYING A TODO APPLICATION ON AWS CLOUD](https://github.com/meetmayowa/DevOps-PBL/blob/main/project3.md)
 
@@ -54,3 +54,6 @@ Project 2: SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 [Project 22: DEPLOYING APPLICATIONS INTO KUBERNETES CLUSTER](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project22-Deploying-Applications-Into-Kubernetes-Cluster/project22.md)
 
 [Project 23: PERSISTING DATA IN KUBERNETES](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project23-Persisting-Data-In-Kubernetes/project23.md)
+
+
+[Project 24: BUILDING ELASTIC KUBERNETES SERVICE (EKS) WITH TERRAFORM](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project24-Building_Elastic_Kubernetes_Service_EKS_with_Terraform/project24.md)
