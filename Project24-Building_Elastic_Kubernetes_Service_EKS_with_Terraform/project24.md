@@ -10,6 +10,8 @@ The following outlines the steps;
 
 * Creating AWS S3 bucket from a CLI to store the Terraform state:`$ aws s3api create-bucket --bucket eks-terraform-buck --region us-east-1`
 
+![s3-bucket](./img/1-bucket.PNG)
+
 * Creating a new directory eks for the Terraform file
 
 * Creating a file backend.tf for the remote state in S3:
