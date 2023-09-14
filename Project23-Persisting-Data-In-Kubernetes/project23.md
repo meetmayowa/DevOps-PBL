@@ -4,29 +4,144 @@ The pods created in Kubernetes are ephemeral, they don't run for long. When a po
 
 The following outlines the steps:
 
-### STEP 1: Setting Up AWS Elastic Kubernetes Service With EKSCTL
+### STEP 1: Setting Up AWS Elastic Kubernetes Service With kOps on AWS
 
-* Downloading and extracting the latest release of eksctl with the following command:`$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp`
-* Moving the extracted binary to `/usr/local/bin:$ sudo mv /tmp/eksctl /usr/local/bin`
-* Testing the installation was successful with the following command:$ eksctl version
+Using this link as a guideline 
+https://kops.sigs.k8s.io/getting_started/install/
+https://kops.sigs.k8s.io/getting_started/aws/
 
-![load-balancer](./img/1-eksctl.PNG)
+* Install the necessary dependencies: 
+   - Download the kops binary for Linux by running the following command
+ 
+ `curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+ `
 
-* Setting up EKS cluster with a single commandline:
+* Make the binary executable by running:
+`chmod +x kops`
+
+* Move the binary to a directory in your PATH:
+`sudo mv kops /usr/local/bin/kops`
+
+![kops](./img/1-kops.PNG)
+
+
+
+### Prepare local environment
+* We're ready to start creating our first cluster! Let's first set up a few environment variables to make the process easier.
+
+* Setting up KOPS cluster with a single commandline:
 
 ```
-$ eksctl create cluster \
-  --name my-eks-clusters \
-  --version 1.27 \
-  --region us-east-1 \
-  --nodegroup-name worker-nodes \
-  --node-type t2.medium \
-  --nodes 2
+# Kops cluster state bucket
+aws s3api create-bucket \
+    --bucket p23-kops-cluster \
+    --region us-east-1
+
+# List the AWS s3
+aws s3 ls
+
+# Enable versioning
+aws s3api put-bucket-versioning --bucket p23-kops-cluster  --versioning-configuration Status=Enabled
+
+# Export variables
+export NAME=my-first-cluster.k8s.local
+export KOPS_STATE_STORE=s3://p23-kops-cluster
+
+# Create Cluster
+kops create cluster --name=${NAME} --cloud=aws --zones=us-east-1a --state=s3://p23-kops-cluster
+
+#Edit Cluster
+kops edit cluster --name ${NAME}
+$ kops edit cluster --name my-first-cluster.k8s.local
+
+#Build the cluster
+
+kops update cluster --name ${NAME} --yes --admin
+$ kops update cluster --name my-first-cluster.k8s.local --yes --admin
+#Validate the cluster
+kops validate cluster --wait 10m
+
+
+kubectl -n kube-system get po
+
+#Delete the cluster
+kops delete cluster --name ${NAME} --yes
 
 ```
 
-![load-balancer](./img/2-cluster.PNG)
-![load-balancer](./img/2-cluster-2.PNG)
+* Kops cluster state bucket
+
+```
+aws s3api create-bucket \
+    --bucket p23-kops-cluster \
+    --region us-east-1
+
+### List the AWS s3
+aws s3 ls
+```
+
+![ls-bucket](./img/3-ls-bucket.PNG)
+
+
+*  Enable versioning 
+
+`aws s3api put-bucket-versioning --bucket p23-kops-cluster  --versioning-configuration Status=Enabled`
+
+* Export variables
+
+`export NAME=my-first-cluster.k8s.local`
+
+`export KOPS_STATE_STORE=s3://p23-kops-cluster`
+
+![export](./img/4-export.PNG)
+
+* Create Cluster
+
+`kops create cluster --name=${NAME} --cloud=aws --zones=us-east-1a --state=s3://p23-kops-cluster`
+
+![cluster](./img/5-cluster.PNG)
+![cluster](./img/6-cluster2.PNG)
+![cluster](./img/7-cluster3.PNG)
+![cluster](./img/8-cluster4.PNG)
+![cluster](./img/9-cluster5.PNG)
+
+* Edit Cluster
+
+`kops edit cluster --name my-first-cluster.k8s.local`
+
+![edit-cluster](./img/10-edit-k8s.PNG)
+![edit-cluster](./img/11-k8s-version.PNG)
+![insert-cluster](./img/12-k8s-insert.PNG)
+
+* Build the cluster
+`kops update cluster --name my-first-cluster.k8s.local --yes --admin`
+
+
+![Update-cluster](./img/13-update-k8s.PNG)
+![Update-cluster](./img/14-update-k8s.PNG)
+
+* Validate the cluster
+
+`kops validate cluster --wait 10m`
+
+![validate-cluster](./img/15-validate.PNG)
+
+* From Management console, view the vpc
+
+![vpc](./img/16-vpc.PNG)
+![vpc](./img/18-security-groups.PNG)
+![vpc](./img/19-ec2.PNG)
+![vpc](./img/20-auto-scaling.PNG)
+
+* kubectl -n kube-system get po
+
+![kube](./img/17-kube-system.PNG)
+
+* Delete the cluster
+
+`kops delete cluster --name my-first-cluster.k8s.local --yes`
+
+![kube](./img/21-delete-cluster.PNG)
 
 ### STEP 2: Creating Persistent Volume Manually For The Nginx Application
 * Creating a deployment manifest file for the Nginx application and applying it:
@@ -59,13 +174,12 @@ EOF
 
 ```
 
-![load-balancer](./img/1-eksctl.PNG)
+![nginx-pod](./img/21-nginx-pod.PNG)
 
-![load-balancer](./img/1-eksctl.PNG)
+![nginx-pod2](./img/22-nginx-pod2.PNG)
 
 
 * Verifying that the pod is running: `$ kubectl get pod`
-
 
 * Exec into the pod and navigating to the nginx configuration file:
 
@@ -77,9 +191,11 @@ cat default.conf
 
 ```
 
-![load-balancer](./img/1-eksctl.PNG)
+![kubectl](./img/25-kubectl-exec.PNG)
+![kubectl2](./img/26-kubectl-exec2.PNG)
 
 * When creating a volume it must exists in the same region and availability zone as the EC2 instance running the pod. To confirm which node is running the pod: `$ kubectl get po nginx-deployment-6fdcffd8fc-tj9c6 -o wide`
+
 
 ![get-pod](./img/27-kubectl-get-pod.PNG)
 
