@@ -317,6 +317,8 @@ provider "kubernetes" {
 * Changing the permission of the script:`$ chmod 700 get_helm.sh`
 * Executing the script:`$ ./get_helm.sh`
 
+![s3-bucket](./img/1-bucket.PNG)
+
 ### STEP 3: Deploying Jenkins With Helm
 
 * Adding the Jenkins' repository to helm so it can be easily downloaded and deployed:`$ helm repo add jenkins https://charts.jenkins.io`
