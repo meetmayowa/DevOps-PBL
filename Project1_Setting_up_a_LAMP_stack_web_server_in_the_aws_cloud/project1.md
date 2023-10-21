@@ -133,3 +133,104 @@ command as follows:
 `sudo chown -R $USER:$USER /var/www/projectlamp`
 
 ![ownership](./img/15-ownership.png)
+
+3- Then, create and open a new configuration file in Apache’s 
+`sites-available` directory using your preferred command-line editor. Here, we’ll be using  vi or vim (They are the same by the way):
+`sudo vi /etc/apache2/sites-available/projectlamp.conf`
+
+![config](./img/16-config.png)
+
+4-This will create a new blank file. Paste in the following bare-bones configuration by hitting on `i` on the keyboard to enter the insert mode, and paste the text:
+
+```
+<VirtualHost *:80>
+    ServerName projectlamp
+    ServerAlias www.projectlamp 
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/projectlamp
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+```
+6- To save and close the file, simply follow the steps below:
+To save and close the file, simply follow the steps below:
+1. Hit the `esc` button on the keyboard
+2. Type `:`
+3. Type `wq.` w for write and `q` for quit
+4. Hit `ENTER` to save the file
+
+7- You can use the `ls`  command to show the new file in the sites-available directory
+`sudo ls /etc/apache2/sites-available`
+
+![avaialable](./img/17-available.png)
+
+8- You can now use a2ensite command to enable the new virtual host:
+`sudo a2ensite projectlamp`
+
+![a2ensites](./img/18-a2ensites.png)
+
+9- To disable Apache’s default website use **a2dissite** command , type:
+`sudo a2dissite 000-default`
+
+![a2ensites](./img/19-a2ensites.png)
+
+10- To make sure your configuration file doesn’t contain syntax errors, run:
+`sudo apache2ctl configtest`
+
+11- To make sure your configuration file doesn’t contain syntax errors, run:
+`sudo apache2ctl configtest`
+
+![configtest](./img/20-configtest.png)
+
+12- Your new website is now active, but the web root /var/www/projectlamp is still empty. Create an index.html file in that location so that we can test that the virtual host works as expected:
+
+`sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlamp/index.html`
+
+13- Now go to your browser and try to open your website URL using IP address:
+`http://<Public-IP-Address>:80`
+`http://3.95.8.111:80`
+
+
+![index](./img/20-index.png)
+
+If you see the text from `‘echo’` command you wrote to index.html file, then it means your Apache virtual host is working as expected.
+
+
+### STEP 5 — ENABLE PHP ON THE WEBSITE
+
+Because this page will take precedence over the `index.php` page, it will then become the landing page for the application. Once maintenance is over, the `index.html` is renamed or removed from the document root, bringing back the regular application page.
+
+1- In case you want to change this behavior, you’ll need to edit the `/etc/apache2/mods-enabled/dir.conf` file and change the order in which the `index.php` file is listed within the DirectoryIndex directive:
+
+`sudo vim /etc/apache2/mods-enabled/dir.conf`
+
+```
+<IfModule mod_dir.c>
+        #Change this:
+        #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+        #To this:
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
+
+```
+
+![index](./img/21-index.png)
+
+2- After saving and closing the file, you will need to reload Apache so the changes take effect:
+`sudo systemctl reload apache2`
+
+![apache](./img/22-apache.png)
+
+3- Finally, we will create a PHP script to test that PHP is correctly installed and configured on your server.
+
+Now that you have a custom location to host your website’s files and folders, we’ll create a PHP test script to confirm that Apache is able to handle and process requests for PHP files.
+Create a new file named index.php inside your custom web root folder:
+`vim /var/www/projectlamp/index.php`
+
+4- This will open a blank file. Add the following text, which is valid PHP code, inside the file: 
+```
+<?php
+phpinfo();
+
+```
