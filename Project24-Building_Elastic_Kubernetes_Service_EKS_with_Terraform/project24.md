@@ -273,10 +273,15 @@ provider "random" {
 
 * Running the terraform init command:
  
+![terraform-init](./img/11-terraform-init.PNG)
+ 
+![terraform-init](./img/12-terraform-init2.PNG)
 
 * Running the terraform plan command to confirm the configuration:
 
-
+![terraform-init](./img/13-init.PNG)
+![terraform-init](./img/13-init2.PNG)
+![terraform-init](./img/14-init2.PNG)
 * Running the terraform apply command will cause the following the error at some point while creating the resources, that is because for us to connect to the cluster using the kubeconfig, Terraform needs to be able to connect and set the credentials correctly:
 
 
@@ -309,7 +314,30 @@ provider "kubernetes" {
 
 * Running the terraform init and terraform apply again
 
+![validate](./img/15-validate.PNG)
+![validate](./img/16-validate2.PNG)
+![validate](./img/20-validate6.PNG)
+
 * Creating the kubeconfig file using awscli:`$ aws eks update-kubecofig --name tooling-app-eks --region us-west-1 --kubeconfig kubeconfig`
+![validate](./img/28-kubeconfig.PNG)
+![validate](./img/22-eks.PNG)
+
+* Some of the outputs on the management console
+
+![dynamo-db](./img/23-dynamodb.PNG)
+![vpc](./img/24-vpc.PNG)
+![subnet](./img/25-subnet.PNG)
+![internet-gateway](./img/26-igw.PNG)
+
+![rtb](./img/27-rtb.PNG)
+
+* At the end of the whole project, To destroy the infrastructure, run the command:
+
+`terraform destroy`
+
+ NB: You may be prompted to confirm the destruction by typing "yes." 
+
+![terraform-destroy](./img/29-destroy.PNG)
 
 ### STEP 2: Installing Helm From Script
 * Fetching the script:`$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3`
@@ -317,7 +345,7 @@ provider "kubernetes" {
 * Changing the permission of the script:`$ chmod 700 get_helm.sh`
 * Executing the script:`$ ./get_helm.sh`
 
-![s3-bucket](./img/1-bucket.PNG)
+![helm-script](./img/30-helm-script.PNG)
 
 ### STEP 3: Deploying Jenkins With Helm
 
