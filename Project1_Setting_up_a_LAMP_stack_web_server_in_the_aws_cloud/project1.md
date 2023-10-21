@@ -74,3 +74,46 @@ When the installation is finished, log in to the MySQL console by typing:
 This will connect to the MySQL server as the administrative database user root, which is inferred by the use of sudo when running this command
 
 ![mysql](./img/7-sudo-mysql.PNG)
+
+3- Before running the script you will set a password for the root user, using mysql_native_password as default authentication method. We’re defining this user’s password as `PassWord.1`
+
+
+`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';`
+
+
+![mysql2](./img/8-mysql2.PNG)
+
+4-Start the interactive script by running:
+
+5- If you enabled password validation, you’ll be shown the password strength for the root password you just entered and your server will ask if you want to continue with that password. If you are happy with your current password, enter `Y`
+ for `“yes”` at the prompt:
+
+![scripts](./img/9-scripts.PNG)
+
+
+6- When you’re finished, test if you’re able to log in to the MySQL console by typing:
+ `$ sudo mysql -p`
+ `$ mysql -u root -p`
+
+![root](./img/10-root.PNG)
+
+![pass](./img/11-pass.PNG)
+
+### STEP 3 — INSTALLING PHP
+
+You have Apache installed to serve your content and MySQL installed to store and manage your data. PHP is the component of our setup that will process code to display dynamic content to the end user. In addition to the PHP package, you’ll needphp-mysql
+
+1 - a PHP module that allows PHP to communicate with MySQL-based databases. You’ll also need  to enable Apache to handle PHP files. Core PHP packages will automatically be installed as dependencies.
+To install these 3 packages at once, 
+
+run:`Libapache2-mod-php`
+
+![root](./img/12-php.PNG)
+
+2-Version Confirmation 
+
+`php -v`
+
+![version](./img/13-version.PNG)
+
+At this point, your LAMP stack is completely installed and fully operational.
