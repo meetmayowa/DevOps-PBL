@@ -234,3 +234,18 @@ Create a new file named index.php inside your custom web root folder:
 phpinfo();
 
 ```
+
+![php-script](./img/23-php-script.png)
+
+
+
+5- When you are finished, save and close the file, refresh the page and you will see a page similar to this:
+
+![php](./img/24-php.png)
+
+This page provides information about your server from the perspective of PHP. It is useful for debugging and to ensure that your settings are being applied correctly.
+If you can see this page in your browser, then your PHP installation is working as expected.
+6- After checking the relevant information about your PHP server through that page, it’s best to remove the file you created as it contains sensitive information about your PHP environment -and your Ubuntu server. You can use rm to do so:
+`sudo rm /var/www/projectlamp/index.php`
+
+![landing](./img/25-landing.png)
