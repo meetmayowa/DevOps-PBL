@@ -20,14 +20,14 @@ Start by updating the package manager cache to update the software repository on
 #update a list of packages in package manager
 `sudo apt update`
 
-![apache](./img/1-update.PNG)
+![apache](./img/1-update.png)
 
 
 2- Then, install Apache with:
 #run apache2 package installation
 `sudo apt install apache2`
 
-![apache](./img/2-apache.PNG)
+![apache](./img/2-apache.png)
 
 3- You’ll also be prompted to confirm Apache’s installation by pressing `Y`, then ENTER.
 
@@ -35,7 +35,7 @@ Start by updating the package manager cache to update the software repository on
 #verify that apache2 is running
 `sudo systemctl status apache2`
 
-![reload](./img/3-reload.PNG)
+![reload](./img/3-reload.png)
 
 **Note: If it is green and running, then you did everything correctly**
 
@@ -48,13 +48,13 @@ Therefore, using the AWS Management Console, we shall configure it to open the p
 6- First, let us try to check how we can access it locally in our Ubuntu shell, run:
 `curl http://localhost:80  or  curl http://127.0.0.1:80`
 
-![port80](./img/4-port80.PNG)
+![port80](./img/4-port80.png)
 
 7- Now it is time for us to test how our Apache HTTP server can respond to requests from the Internet. Open a web browser of your choice and try to access following url
 
 `http://<Public-IP-Address>:80`
 
-![default](./img/5-default.PNG)
+![default](./img/5-default.png)
 
 ## Step 2 — Installing MySQL
 Now that you have a web server up and running, you need to install a Database Management System (DBMS) to be able to store and manage data for your site in a relational database. MySQL is a popular relational database management system used within PHP environments, so we will use it in our project. 
@@ -64,7 +64,7 @@ Now that you have a web server up and running, you need to install a Database Ma
 `$ sudo apt install mysql-server`
 
 
-![mysql](./img/6-mysql.PNG)
+![mysql](./img/6-mysql.png)
 
 2-When prompted, confirm installation by typing `Y`, and then ENTER
 
@@ -73,7 +73,7 @@ When the installation is finished, log in to the MySQL console by typing:
 `$ sudo mysql`
 This will connect to the MySQL server as the administrative database user root, which is inferred by the use of sudo when running this command
 
-![mysql](./img/7-sudo-mysql.PNG)
+![mysql](./img/7-sudo-mysql.png)
 
 3- Before running the script you will set a password for the root user, using mysql_native_password as default authentication method. We’re defining this user’s password as `PassWord.1`
 
@@ -81,23 +81,23 @@ This will connect to the MySQL server as the administrative database user root, 
 `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';`
 
 
-![mysql2](./img/8-mysql2.PNG)
+![mysql2](./img/8-mysql2.png)
 
 4-Start the interactive script by running:
 
 5- If you enabled password validation, you’ll be shown the password strength for the root password you just entered and your server will ask if you want to continue with that password. If you are happy with your current password, enter `Y`
  for `“yes”` at the prompt:
 
-![scripts](./img/9-scripts.PNG)
+![scripts](./img/9-scripts.png)
 
 
 6- When you’re finished, test if you’re able to log in to the MySQL console by typing:
  `$ sudo mysql -p`
  `$ mysql -u root -p`
 
-![root](./img/10-root.PNG)
+![root](./img/10-root.png)
 
-![pass](./img/11-pass.PNG)
+![pass](./img/11-pass.png)
 
 ### STEP 3 — INSTALLING PHP
 
@@ -108,12 +108,28 @@ To install these 3 packages at once,
 
 run:`Libapache2-mod-php`
 
-![root](./img/12-php.PNG)
+![root](./img/12-php.png)
 
 2-Version Confirmation 
 
 `php -v`
 
-![version](./img/13-version.PNG)
+![version](./img/13-version.png)
 
 At this point, your LAMP stack is completely installed and fully operational.
+
+
+### STEP 4 — CREATING A VIRTUAL HOST FOR YOUR WEBSITE USING APACHE
+Apache on Ubuntu 20.04 has one server block enabled by default that is configured to serve documents from the /var/www/html directory.
+We will leave this configuration as is and will add our own directory next to the default one.
+
+1-Create the directory for projectlamp using `‘mkdir’` 
+command as follows:
+`sudo mkdir /var/www/projectlamp`
+
+![mkdir](./img/14-mkdir.png)
+
+2- Next, I assigned  ownership of the directory with my current system user:
+`sudo chown -R $USER:$USER /var/www/projectlamp`
+
+![ownership](./img/15-ownership.png)
