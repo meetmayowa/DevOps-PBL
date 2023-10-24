@@ -30,7 +30,7 @@ This repository contains most of the real-life projects I carried out during my 
 [Project 10: LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project10_Load_balancer_solution_with_NGINX_and_SSL_TLS/project10.md)
 
 
-[Project 11: ANSIBLE CONFIGURATION MANAGEMENT - AUTOMATION OF SEVERAL PROJECTS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project6-Implementing_lvs_and_wordpress_web_solution_project/project11.md)
+[Project 11: ANSIBLE CONFIGURATION MANAGEMENT - AUTOMATION OF SEVERAL PROJECTS](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project11_Ansible_Configuration_Management_To_Automate_Several_Projects/project11.md)
 
 [Project 12: ANSIBLE REFACTORING AND STATIC ASSIGNMENT (IMPORTS AND ROLES)](https://github.com/meetmayowa/DevOps-PBL/blob/main/Project12_Ansible_Refactoring_And_Static_Assignement_(Imports_And_Roles)/project12.md)
 
