@@ -106,7 +106,7 @@ You have Apache installed to serve your content and MySQL installed to store and
 1 - a PHP module that allows PHP to communicate with MySQL-based databases. You’ll also need  to enable Apache to handle PHP files. Core PHP packages will automatically be installed as dependencies.
 To install these 3 packages at once, 
 
-run:`Libapache2-mod-php`
+run:`sudo apt install php libapache2-mod-php php-mysql`
 
 ![root](./img/12-php.png)
 
