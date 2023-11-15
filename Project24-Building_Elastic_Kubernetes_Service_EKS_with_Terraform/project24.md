@@ -411,6 +411,7 @@ Adding the Artifactory's repository to helm:`$ helm repo add jfrog https://chart
 
 * Installing the chart:`$ helm upgrade --install artifactory --namespace artifactory jfrog/artifactory`
 
+![jfrog](./img/45-jfrog.PNG)
 
 ### STEP 5: Deploying Hashicorp Vault With Helm
 
@@ -419,19 +420,26 @@ Adding the Artifactory's repository to helm:`$ helm repo add jfrog https://chart
 
 * Installing the chart:`$ helm install vault hashicorp/vault`
 
+![hashicorp](./img/46-hashicorp.PNG)
 
 ### Inspecting the installation:
 
 
 * Port forwarding to access Hashicorp vault from the UI:`kubectl port-forward svc/vault 8089:8200`
 
+![vault](./img/47-vault.PNG)
+
 
 * Accessing the app from the browser:`http://localhost:8089`
 
+![vault](./img/48-vault2.PNG)
 
 ### STEP 6: Deploying Prometheus With Helm
 
 * Adding the prometheus's repository to helm: `$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+
+![prometheus](./img/49-prometheus.PNG)
+
 * Updating helm repo:`$ helm repo update`
 
 
@@ -441,41 +449,59 @@ Adding the Artifactory's repository to helm:`$ helm repo add jfrog https://chart
 * Inspecting the installation shows that there are various pods and services created
 Port forwarding to access prometheus for alert manager from the UI:`$ kubectl port-forward svc/myprometheus-alertmanager 8000:80`
 
+![prometheus](./img/50-get-po-svc.PNG)
 
 * Accessing the app from the browser:`http://localhost:8000`
 
+![prometheus](./img/51-localhost.PNG)
 
 * Port forwarding to access prometheus for kube state metrics from the UI:`$ kubectl port-forward svc/myprometheus-kube-state-metrics 8000:8080`
 
+![prometheus](./img/52-state-metrics.PNG)
 
 * Accessing the app from the browser:`http://localhost:8000`
 
+![prometheus](./img/53-metrics.PNG)
 
 * Port forwarding to access prometheus for pushgateway from the UI:`$ kubectl port-forward svc/myprometheus-pushgateway 8000:9091`
+
+![prometheus](./img/54-pushgateway.PNG)
 
 
 * Accessing the app from the browser:`http://localhost:8000``
 
+![prometheus](./img/55-gateway.PNG)
 
 ### STEP 7: Deploying Grafana With Helm
-* Adding the grafana's repository to helm:`$ helm repo add grafana https://grafana.github.io/helm-charts``
-* Updating helm repo:`$ helm repo update
-Installing the chart:$ helm install grafana-tool grafana/grafana` 
+* Adding the grafana's repository to helm:`$ helm repo add grafana https://grafana.github.io/helm-charts`
 
+* Updating helm repo:`$ helm repo update`
+
+* Installing the chart:`$ helm install grafana-tool grafana/grafana` 
+
+![grafana](./img/56-grafana.PNG)
 
 * Port forwarding to access grafana from the UI:`$ kubectl port-forward svc/grafana-tool 8000:80`
 
+![grafana](./img/57-grafana-port.PNG)
 
 * Accessing the app from the browser:`http://localhost:8000`
 
+![grafana](./img/58-grafana-welcome.PNG)
+
+![grafana](./img/59-grafana.PNG)
+
+![grafana](./img/60-grafana-home.PNG)
 
 ### STEP 8: Deploying Elasticsearch With Helm
 * Adding the Artifactory's repository to helm:`$ helm repo add` 
 * Updating helm repo:`$ helm repo update`
 * Installing the chart:`$ helm install ...`
 
- 
+![elasticsearch](./img/61-elasticsearch.PNG)
 
+ 
+Done!!
 
 
 
