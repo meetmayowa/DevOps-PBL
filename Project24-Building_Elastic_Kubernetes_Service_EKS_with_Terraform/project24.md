@@ -350,21 +350,39 @@ provider "kubernetes" {
 ### STEP 3: Deploying Jenkins With Helm
 
 * Adding the Jenkins' repository to helm so it can be easily downloaded and deployed:`$ helm repo add jenkins https://charts.jenkins.io`
+
+![jenkins](./img/33-jenkins.PNG)
+
 * Updating helm repo:`$ helm repo update`
+
+![helm-update](./img/34-jenkins.PNG)
 
 * Installing the chart:`$ helm install myjenkins jenkins/jenkins --kubeconfig kubeconfig`
 
+![helm](./img/35-helms.PNG)
 
 * Running some commands to inspect the installation:
 
+![pods](./img/36-running-pods.PNG)
 
+![logs](./img/37-running-logs.PNG)
 
+![logs](./img/38-running-logs2.PNG)
 
 * In order to run the kubectl commands without specifying the kubeconfig file, a package manager for kubectl called krew is installed so that it will enable us to install plugins to extend the functionality of kubectl:
  
 
 * Installing Konfig plugin:`$ kubectl krew install konfig`
 
+![krew](./img/39-krew.PNG)
+
+![krew](./img/40-krew1.PNG)
+
+![krew](./img/41-krew2.PNG)
+
+![krew](./img/42-good.PNG)
+
+![krew](./img/43-krew.PNG)
 
 * Importing the kubeconfig into the default kubeconfig file:`$ sudo kubectl konfig import --save  kubeconfig`
 
