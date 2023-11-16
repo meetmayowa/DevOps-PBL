@@ -14,7 +14,7 @@ The following outlines the steps:
 
 ![docker](./img/1-docker.PNG)
 
-* Because it's not a good practice to connect to MySQL server remotely using the root user. Creating a file create_user.sql and adding the following code in order to create a user: `CREATE USER 'somex'@'%' IDENTIFIED BY 'password123'; GRANT ALL PRIVILEGES ON * . * TO 'somex'@'%';`
+* Because it's not a good practice to connect to MySQL server remotely using the root user. Creating a file create_user.sql and adding the following code in order to create a user: `CREATE USER 'meetmayowa'@'%' IDENTIFIED BY 'password123'; GRANT ALL PRIVILEGES ON * . * TO 'meetmayowa'@'%';`
 * Running the script to create the new user: `$ docker exec -i mysql-server mysql -uroot -p$MYSQL_PW < create_user.sql`
 
 ![docker](./img/1-docker.PNG)
